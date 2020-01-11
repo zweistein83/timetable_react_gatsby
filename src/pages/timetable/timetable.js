@@ -11,7 +11,8 @@ class Timetable extends Component {
         this.state = {
             days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
             starthour: 7,
-            
+            hour_row_height: 4
+
         }
     }
     render() {
@@ -31,8 +32,10 @@ class Timetable extends Component {
                 </Nav>
 
                 <Row>
-                    
-                    <TimetableComponent days={this.state.days} starthour={this.state.starthour} />
+
+                    <TimetableComponent days={this.state.days}
+                        starthour={this.state.starthour}
+                        hour_row_height={this.state.hour_row_height} />
                 </Row>
             </Container>
         );

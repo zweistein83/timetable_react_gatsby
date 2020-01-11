@@ -19,6 +19,7 @@ class TimetableComponent extends Component {
         const DAYS = this.props.days;
         const STARTHOUR = this.props.starthour;
         const COLSETTING = this.props.colSetting;
+        const hour_row_height= this.props.hour_row_height;
         //console.log("COLSETTING:")
         //console.log(COLSETTING);
 
@@ -27,8 +28,9 @@ class TimetableComponent extends Component {
             //console.log("BackgroundRow: " + even + " " + row_i);
             const evenStr = even ? "bg-even" : "bg-odd";
             const hour = (STARTHOUR + row_i).toString().padStart(2, "0");
+            const hour_row_height_rem = hour_row_height+"rem"
             return (
-                <Row className={ evenStr + " hour-row"}>{hour + ":00"}</Row>
+            <Row className={ evenStr + " hour-row"} style={{height:hour_row_height_rem}}>{hour + ":00"} </Row>
             );
         }
 
@@ -55,7 +57,7 @@ class TimetableComponent extends Component {
                 <div key={dayName + "_" + day_i} className={"col-12 col-xs-2 col-sm-4 col-lg col-days"+ (day_i ? "" : " col-firstday")}>
                     <Row className="day-row">{dayName}</Row>
                     <React.Fragment key="day_i">
-                        <EventsContainer/>
+                        <EventsContainer hour_row_height={hour_row_height}/>
                     </React.Fragment>
                     <BackgroundRows num={10} />
                     
