@@ -23,6 +23,16 @@
     border-left-width: 1px;
 }
 
+
+.container-timetable{
+    background-color: rgba(51, 51, 61);
+    border-style: solid;
+    border-color: black;
+    border-width: 0 0.05rem 0.05rem 0.05rem;
+    border-radius: 0rem 0rem 0.5rem 0.5rem;
+
+}
+
 .day-row{
     background-color: rgb(82, 82, 82);
     color:white;
@@ -51,9 +61,13 @@
     width: 100%;
 }
 
-.card-header{
-    
+
+
+.event-body{
+    padding: 0.2rem;
+    font-size: 0.7rem;
 }
+
 
 .event-card{
     background-color: coral;
@@ -67,11 +81,6 @@
     font-size: 0.7rem;
 }
 
-.event-body{
-    padding: 0.2rem;
-    font-size: 0.7rem;
-
-}
 
 .hidden{
     visibility: hidden;
@@ -82,3 +91,4 @@ body{
     background-repeat: no-repeat;
     min-height: 100vh;
 }
+

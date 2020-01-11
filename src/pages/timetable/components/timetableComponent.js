@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Row } from "reactstrap";
+import EventsContainer from "./eventsComponent";
 
 
 
@@ -18,16 +19,16 @@ class TimetableComponent extends Component {
         const DAYS = this.props.days;
         const STARTHOUR = this.props.starthour;
         const COLSETTING = this.props.colSetting;
-        console.log("COLSETTING:")
-        console.log(COLSETTING);
+        //console.log("COLSETTING:")
+        //console.log(COLSETTING);
 
 
         const BackgroundRow = ({ even, row_i }) => {
             //console.log("BackgroundRow: " + even + " " + row_i);
-            const evenStr = even ? "even" : "odd";
+            const evenStr = even ? "bg-even" : "bg-odd";
             const hour = (STARTHOUR + row_i).toString().padStart(2, "0");
             return (
-                <Row className={"bg-" + evenStr + " hour-row"}>{hour + ":00"}</Row>
+                <Row className={ evenStr + " hour-row"}>{hour + ":00"}</Row>
             );
         }
 
@@ -51,9 +52,13 @@ class TimetableComponent extends Component {
         const BackgroundCol = ({ dayName, day_i }) => {
             //console.log("BackgroundCol: ");
             return (
-                <div key={dayName + "_" + day_i} className={COLSETTING +" col-days"+ (day_i ? "" : " col-firstday")}>
+                <div key={dayName + "_" + day_i} className={"col-12 col-xs-2 col-sm-4 col-lg col-days"+ (day_i ? "" : " col-firstday")}>
                     <Row className="day-row">{dayName}</Row>
+                    <React.Fragment key="day_i">
+                        <EventsContainer/>
+                    </React.Fragment>
                     <BackgroundRows num={10} />
+                    
                 </div>
             );
         }

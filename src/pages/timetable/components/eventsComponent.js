@@ -5,24 +5,15 @@ function EventsContainer({ colSetting }) {
     return (
         <div className="overlay-wrapper">
             <div className="overlay">
-                <Container>
-                    <Row>
-                        <div className={colSetting}>
-                            <div className="row day-row hidden">
 
-                            </div>
-                            
-                                <div className="card event-card">
-                                    <div className="card-header event-header">Testing123</div>
-                                    <div className="card-body event-body">
-                                    </div>
-                                </div>
-                            
-
+                
+                    <div className="card event-card">
+                        <div className="card-header event-header">Testing123</div>
+                        <div className="card-body event-body">
                         </div>
+                    </div>
+                
 
-                    </Row>
-                </Container>
             </div>
 
         </div>)
