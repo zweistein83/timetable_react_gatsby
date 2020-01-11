@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Row } from "reactstrap";
-import EventsContainer from "./eventsComponent";
+import EventsComponent from "./eventsComponent";
 
 
 
@@ -30,7 +30,7 @@ class TimetableComponent extends Component {
             const hour = (STARTHOUR + row_i).toString().padStart(2, "0");
             const hour_row_height_rem = hour_row_height+"rem"
             return (
-            <Row className={ evenStr + " hour-row"} style={{height:hour_row_height_rem}}>{hour + ":00"} </Row>
+            <Row className={ evenStr + " hour-row pl-1"} style={{height:hour_row_height_rem}}>{hour + ":00"} </Row>
             );
         }
 
@@ -57,7 +57,7 @@ class TimetableComponent extends Component {
                 <div key={dayName + "_" + day_i} className={"col-12 col-xs-2 col-sm-4 col-lg col-days"+ (day_i ? "" : " col-firstday")}>
                     <Row className="day-row">{dayName}</Row>
                     <React.Fragment key="day_i">
-                        <EventsContainer hour_row_height={hour_row_height}/>
+                        <EventsComponent hour_row_height={hour_row_height}/>
                     </React.Fragment>
                     <BackgroundRows num={10} />
                     
