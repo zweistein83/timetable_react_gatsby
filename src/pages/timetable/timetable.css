@@ -1,0 +1,83 @@
+.bg-odd{
+    background-color:   rgb(167, 167, 167);
+    
+}
+
+.bg-even{
+    background-color: rgb(226, 226, 226);
+   
+}
+
+.hour-row{
+    height: 60px;    
+    font-size: 0.7rem;
+}
+
+.col-days{    
+    border-style: solid;    
+    border-width: 1px 1px 1px 0px;    
+    
+}
+
+.col-firstday{    
+    border-left-width: 1px;
+}
+
+.day-row{
+    background-color: rgb(82, 82, 82);
+    color:white;
+    justify-content: center;
+    height: 25px;
+
+
+
+    /*border-style: solid;
+    border-width: 0px;
+    border-bottom: 2px;*/
+    
+}
+
+.overlay{
+    position: absolute;
+    width: 100%;    
+    z-index: 20;
+        
+    
+    
+}
+
+.overlay-wrapper{
+    position: relative;
+    width: 100%;
+}
+
+.card-header{
+    
+}
+
+.event-card{
+    background-color: coral;
+    
+    
+}
+
+.event-header{
+    padding: 0.2rem 0.3rem;
+    font-size: 0.7rem;
+}
+
+.event-body{
+    padding: 0.2rem;
+    font-size: 0.7rem;
+
+}
+
+.hidden{
+    visibility: hidden;
+}
+
+body{
+    background-image:  linear-gradient(30deg, green,blue);
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
