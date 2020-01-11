@@ -1,26 +1,29 @@
 import React, { Component } from "react";
 import { Row } from "reactstrap";
-import "./timetable/timetable.css";
 
 
-class Timetable extends Component {
+
+
+class TimetableComponent extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+           
+
+        };
     }
 
 
-
-
-
-
     render() {
-        const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-        const STARTHOUR = 7;
+        const DAYS = this.props.days;
+        const STARTHOUR = this.props.starthour;
+        const COLSETTING = this.props.colSetting;
+        console.log("COLSETTING:")
+        console.log(COLSETTING);
 
 
         const BackgroundRow = ({ even, row_i }) => {
-            console.log("BackgroundRow: " + even + " " + row_i);
+            //console.log("BackgroundRow: " + even + " " + row_i);
             const evenStr = even ? "even" : "odd";
             const hour = (STARTHOUR + row_i).toString().padStart(2, "0");
             return (
@@ -29,7 +32,7 @@ class Timetable extends Component {
         }
 
         const BackgroundRows = ({ num }) => {
-            console.log("BackgroundRows: " + num);
+            //console.log("BackgroundRows: " + num);
             var rows = [];
             for (let i = 0; i < num; i++) {
 
@@ -46,10 +49,10 @@ class Timetable extends Component {
         }
 
         const BackgroundCol = ({ dayName, day_i }) => {
-            console.log("BackgroundCol: ");
+            //console.log("BackgroundCol: ");
             return (
-                <div key={dayName} className={"col-12 col-xs-2 col-sm-4 col-lg-2 col-days " + (day_i ? "" : "col-firstday")}>
-                    <div className="row day-row">{dayName}</div>
+                <div key={dayName + "_" + day_i} className={COLSETTING +" col-days"+ (day_i ? "" : " col-firstday")}>
+                    <Row className="day-row">{dayName}</Row>
                     <BackgroundRows num={10} />
                 </div>
             );
@@ -58,14 +61,15 @@ class Timetable extends Component {
         const BackgroundCols = (num) => DAYS.map((dayName, i) => {
             console.log("BackgroundCols " + dayName + " " + i);
             return (
-                <React.Fragment>
+                <React.Fragment key={dayName}>
                     <BackgroundCol day_i={i} dayName={dayName} />
                 </React.Fragment>
             );
 
 
         });
-        /*<this.BackgroundCol/>*/
+
+        
         return (
 
             <div className="container">
@@ -77,4 +81,4 @@ class Timetable extends Component {
         );
     }
 }
-export default Timetable;
+export default TimetableComponent;
