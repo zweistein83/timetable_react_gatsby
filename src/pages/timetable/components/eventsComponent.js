@@ -7,6 +7,8 @@ class EventsComponent extends Component {
     }
 
     render() {
+        const STARTHOUR = this.props.starthour;
+        //const STARTHOUR = this.props.starthour;
         function EventBody({ event_style_custom }) {
 
             return (
@@ -39,9 +41,12 @@ class EventsComponent extends Component {
             
         
         */
-        function EventDetails({ hour_row_height, hour }) {
+        function EventDetails({ hour_row_height, hour_start }) {
             const top_pos = (1 * hour_row_height) + "rem"
-            const event_style_custom = { top: top_pos, height: "2rem" }
+            const hour_to_top_pos = (hour_start)=> {
+                return ((hour_start - STARTHOUR) * hour_row_height) +"rem";
+            };
+            const event_style_custom = { top: hour_to_top_pos(hour_start), height: "3rem" };
             return (
                 <React.Fragment>
                     <EventBody event_style_custom={event_style_custom} />
@@ -51,11 +56,13 @@ class EventsComponent extends Component {
 
 
         function EventsContainer({hour_row_height }) {
+
             return (
                 <div className="overlay-wrapper">
                     <div className="overlay">
                         <Col className="col-12">
-                            <EventDetails hour_row_height={hour_row_height} />
+                            <EventDetails key={0} hour_row_height={hour_row_height} hour_start={7} />
+                            <EventDetails key={1} hour_row_height={hour_row_height} hour_start={13} />
                         </Col>
                     </div>
                 </div>)

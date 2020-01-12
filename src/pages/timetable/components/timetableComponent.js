@@ -18,6 +18,8 @@ class TimetableComponent extends Component {
     render() {
         const DAYS = this.props.days;
         const STARTHOUR = this.props.starthour;
+        const ENDHOUR =  this.props.endhour;
+        var HOURS_TOTAL = ENDHOUR - STARTHOUR;
         const COLSETTING = this.props.colSetting;
         const hour_row_height= this.props.hour_row_height;
         //console.log("COLSETTING:")
@@ -37,7 +39,7 @@ class TimetableComponent extends Component {
         const BackgroundRows = ({ num }) => {
             //console.log("BackgroundRows: " + num);
             var rows = [];
-            for (let i = 0; i < num; i++) {
+            for (let i = 0; i <= num; i++) {
 
                 rows.push(
                     <BackgroundRow key={i} row_i={i} even={i % 2 === 0} />
@@ -50,16 +52,20 @@ class TimetableComponent extends Component {
             );
 
         }
+        /*
+            TODO:
 
+            - move num variable to timetable state.
+        */
         const BackgroundCol = ({ dayName, day_i }) => {
             //console.log("BackgroundCol: ");
             return (
                 <div key={dayName + "_" + day_i} className={"col-12 col-xs-2 col-sm-4 col-lg col-days"+ (day_i ? "" : " col-firstday")}>
                     <Row className="day-row">{dayName}</Row>
                     <React.Fragment key="day_i">
-                        <EventsComponent hour_row_height={hour_row_height}/>
+                        <EventsComponent starthour ={STARTHOUR} hour_row_height={hour_row_height}/>
                     </React.Fragment>
-                    <BackgroundRows num={10} />
+                    <BackgroundRows num={HOURS_TOTAL} />
                     
                 </div>
             );

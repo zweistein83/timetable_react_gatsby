@@ -10,7 +10,8 @@ class Timetable extends Component {
         //colSetting: "col-12 col-xs-2 col-sm-4 col-lg"
         this.state = {
             days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-            starthour: 7,
+            starthour: 5,
+            endhour: 19,
             hour_row_height: 4
 
         }
@@ -35,6 +36,7 @@ class Timetable extends Component {
 
                     <TimetableComponent days={this.state.days}
                         starthour={this.state.starthour}
+                        endhour={this.state.endhour}
                         hour_row_height={this.state.hour_row_height} />
                 </Row>
             </Container>
