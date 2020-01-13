@@ -13,6 +13,13 @@ import "./css/timetable.css";
 
     Save to webstorage.
 
+    - If webstorage is empty:
+        - load this.emptyState 
+        else:
+        - load webstorage.
+
+    - Make it possible to lift up state from eventComponent to timetable to make events editable.
+        - Pass function from timetable to eventComponent.
 
 
     IDEAS:
