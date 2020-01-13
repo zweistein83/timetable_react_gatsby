@@ -62,7 +62,7 @@ class TimetableComponent extends Component {
         const BackgroundCol = ({ dayName, day_i }) => {
             //console.log("BackgroundCol: ");
             return (
-                <div key={dayName + "_" + day_i} className={"col-12 col-xs-2 col-sm-4 col-lg col-days"+ (day_i ? "" : " col-firstday")}>
+                <div key={dayName + "_" + day_i} className={"col-12 col-xs-6 col-sm-4 col-lg col-days"+ (day_i ? "" : " col-firstday")}>
                     <Row className="day-row">{dayName}</Row>
                     <React.Fragment key="day_i">
                         <EventsComponent starthour ={STARTHOUR} hour_row_height={hour_row_height}/>
