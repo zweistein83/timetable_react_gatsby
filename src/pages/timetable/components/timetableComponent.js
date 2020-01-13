@@ -16,12 +16,12 @@ class TimetableComponent extends Component {
 
 
     render() {
-        const DAYS = this.props.days;
-        const STARTHOUR = this.props.starthour;
-        const ENDHOUR =  this.props.endhour;
-        var HOURS_TOTAL = ENDHOUR - STARTHOUR;
-        const COLSETTING = this.props.colSetting;
-        const hour_row_height= this.props.hour_row_height;
+        const DAY_NAMES = this.props.settings.day_names;
+        const STARTHOUR = this.props.settings.starthour;
+        const ENDHOUR =  this.props.settings.endhour;    
+        const EVENTS = this.props.events;    
+        var HOURS_TOTAL = ENDHOUR - STARTHOUR;        
+        const hour_row_height= this.props.settings.hour_row_height;
         //console.log("COLSETTING:")
         //console.log(COLSETTING);
 
@@ -61,11 +61,12 @@ class TimetableComponent extends Component {
         */
         const BackgroundCol = ({ dayName, day_i }) => {
             //console.log("BackgroundCol: ");
+            const dayLabel = (day_num)=> "day_" + (day_num + 1);
             return (
-                <div key={dayName + "_" + day_i} className={"col-12 col-xs-6 col-sm-4 col-lg col-days"+ (day_i ? "" : " col-firstday")}>
+                <div key={dayName + "_" + day_i}  className={"col-12 col-xs-6 col-sm-4 col-lg col-days"+ (day_i ? "" : " col-firstday")}>
                     <Row className="day-row">{dayName}</Row>
                     <React.Fragment key="day_i">
-                        <EventsComponent starthour ={STARTHOUR} hour_row_height={hour_row_height}/>
+                        <EventsComponent day_events={EVENTS[dayLabel(day_i)]} starthour ={STARTHOUR} hour_row_height={hour_row_height}/>
                     </React.Fragment>
                     <BackgroundRows num={HOURS_TOTAL} />
                     
@@ -73,8 +74,8 @@ class TimetableComponent extends Component {
             );
         }
 
-        const BackgroundCols = (num) => DAYS.map((dayName, i) => {
-            console.log("BackgroundCols " + dayName + " " + i);
+        const BackgroundCols = (num) => DAY_NAMES.map((dayName, i) => {
+            //console.log("BackgroundCols " + dayName + " " + i);
             return (
                 <React.Fragment key={dayName}>
                     <BackgroundCol day_i={i} dayName={dayName} />

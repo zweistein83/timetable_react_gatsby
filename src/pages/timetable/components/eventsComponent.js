@@ -38,6 +38,8 @@ class EventsComponent extends Component {
         //console.log("TIME: " + this.timeToIntArray("20:35"));
         //let that = this; // To make class methods available to methods
         const STARTHOUR = this.props.starthour;
+        const EVENTS = this.props.day_events;
+        const hour_row_height = this.props.hour_row_height;
         //const STARTHOUR = this.props.starthour;
 
 
@@ -78,7 +80,10 @@ class EventsComponent extends Component {
             
         
         */
-        const EventDetails = ({ hour_row_height, time_start, time_end }) => {
+        const EventDetails = ({event_details}) => {
+            const time_start = event_details.time_start;
+            const time_end =  event_details.time_end;
+            const event_name= event_details.name;
             //console.log("time_start: " + time_start);
             //console.log("time_end: " + time_end);
             //console.log(this.timeToHours);
@@ -93,20 +98,24 @@ class EventsComponent extends Component {
             const event_style_custom = { top: start_hour_to_top_pos(start_hour), height: end_hour_to_height(end_hour) };
             return (
                 <React.Fragment>
-                    <EventBody event_style_custom={event_style_custom} time_start={time_start} time_end={time_end} />
+                    <EventBody event_style_custom={event_style_custom} event_name={event_name} time_start={time_start} time_end={time_end} />
                 </React.Fragment>
             );
         }
 
 
-        const EventsContainer = ({ hour_row_height }) => {
+        const EventsContainer = () => {
+
+            /*
+                            <EventDetails key={0} hour_row_height={hour_row_height} time_start={"14:15"} time_end={"15:52"} />
+                            <EventDetails key={1} hour_row_height={hour_row_height} time_start={"07:00"} time_end={"12:28"} />
+            */
 
             return (
                 <div className="overlay-wrapper">
                     <div className="overlay">
                         <Col className="col-12">
-                            <EventDetails key={0} hour_row_height={hour_row_height} time_start={"14:15"} time_end={"15:52"} />
-                            <EventDetails key={1} hour_row_height={hour_row_height} time_start={"07:00"} time_end={"12:28"} />
+                            {Object.keys(EVENTS).map((event_id)=><EventDetails key={event_id} event_details = {EVENTS[event_id]} />)}
                         </Col>
                     </div>
                 </div>)
