@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { Container, Row, Nav, NavItem, NavLink, Button, ButtonGroup } from "reactstrap";
-import TimetableComponent from "./components/TimetableComponent";
+import TimetableComponent from "../../components/timetable/timetableComponent";
 import "./css/timetable.css";
 
 
@@ -12,6 +12,12 @@ import "./css/timetable.css";
     Pass events grouped by day to evenComponent.
 
     Save to webstorage.
+
+
+
+    IDEAS:
+
+    Design siden som en almanakk. Sider faller ut av skjermen når man forlater dem.
 */
 
 class Timetable extends Component {
