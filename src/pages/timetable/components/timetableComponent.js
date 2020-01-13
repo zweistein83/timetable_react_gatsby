@@ -26,6 +26,8 @@ class TimetableComponent extends Component {
         //console.log(COLSETTING);
 
 
+        
+
         const BackgroundRow = ({ even, row_i }) => {
             //console.log("BackgroundRow: " + even + " " + row_i);
             const evenStr = even ? "bg-even" : "bg-odd";

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./css/timetable.css";
-import { Container, Row, Nav, NavItem, NavLink, Button } from "reactstrap";
+import { Container, Row, Nav, NavItem, NavLink, Button, ButtonGroup } from "reactstrap";
 import TimetableComponent from "./components/TimetableComponent";
 
 
@@ -16,6 +16,13 @@ class Timetable extends Component {
 
         }
     }
+
+    changeRowHeight(r_height) {
+        this.setState({ hour_row_height: r_height })
+
+    }
+
+
     render() {
         console.table(this.state);
         return (
@@ -24,10 +31,11 @@ class Timetable extends Component {
 
                 <Nav>
                     <NavItem>
-                        <Button>Add event</Button>
-                    </NavItem>
-                    <NavItem>
-                        <Button>Edit event</Button>
+                        <ButtonGroup>
+                            <Button size="sm" onClick={() => this.changeRowHeight(10)}>Add event</Button>
+
+                            <Button size="sm" >Edit event</Button>
+                        </ButtonGroup>
                     </NavItem>
 
                 </Nav>
