@@ -46,11 +46,11 @@ class EventsComponent extends Component {
 
 
 
-        function EventBody({ event_style_custom, time_start, time_end, event_name }) {
+        function EventBody({ event_style_custom, event_color, time_start, time_end, event_name}) {
 
             return (
                 <React.Fragment>
-                    <Card className="event-card" style={event_style_custom}>
+                    <Card className={"event-card "+ event_color} style={event_style_custom}>
                         <CardHeader className="event-header">{event_name}</CardHeader>
                         <CardBody className="event-body">
                             {time_start + "-" + time_end}
@@ -84,6 +84,7 @@ class EventsComponent extends Component {
             const time_start = event_details.time_start;
             const time_end =  event_details.time_end;
             const event_name= event_details.name;
+            const event_color= event_details.color;
             //console.log("time_start: " + time_start);
             //console.log("time_end: " + time_end);
             //console.log(this.timeToHours);
@@ -95,10 +96,10 @@ class EventsComponent extends Component {
             const end_hour_to_height = (time) => {
                 return ((end_hour - start_hour) * hour_row_height) + "rem";
             };
-            const event_style_custom = { top: start_hour_to_top_pos(start_hour), height: end_hour_to_height(end_hour) };
+            const event_style_custom = { top: start_hour_to_top_pos(start_hour), height: end_hour_to_height(end_hour)};
             return (
                 <React.Fragment>
-                    <EventBody event_style_custom={event_style_custom} event_name={event_name} time_start={time_start} time_end={time_end} />
+                    <EventBody event_style_custom={event_style_custom} event_name={event_name} event_color={event_color} time_start={time_start} time_end={time_end} />
                 </React.Fragment>
             );
         }

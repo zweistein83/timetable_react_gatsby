@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import "./css/timetable.css";
+
 import { Container, Row, Nav, NavItem, NavLink, Button, ButtonGroup } from "reactstrap";
 import TimetableComponent from "./components/TimetableComponent";
+import "./css/timetable.css";
 
 
 /*
@@ -21,7 +22,7 @@ class Timetable extends Component {
 
 
         this.state = this.emptyState();
-        console.log(JSON.stringify(this.state));
+        //console.log(JSON.stringify(this.state));
 
         /*
         this.state = {
@@ -48,26 +49,13 @@ class Timetable extends Component {
                 
             },
             "events": {
-                "day_1": {
-                    "evt1": {"name": "Mathematics","time_start": "12:15", "time_end": "14:35"},
-                    "evt2": {"name": "Gymnastics","time_start": "15:00", "time_end": "16:00"},
-                    "evtb": {"name": "Break","time_start": "11:00", "time_end": "12:00"}
-                },
-                "day_2": {
-                    "evt1": {"name": "English","time_start": "08:15", "time_end": "10:35"},
-                    "evtb": {"name": "Break","time_start": "11:00", "time_end": "12:00"}
-                },
-                "day_3": {
-                    "evtb": {"name": "Break","time_start": "11:00", "time_end": "12:00"}
-                },
-                "day_4": {
-                    "evtb": {"name": "Break","time_start": "11:00", "time_end": "12:00"}
-                },
-                "day_5": {
-                    "evtb": {"name": "Break","time_start": "11:00", "time_end": "12:00"}
-                },
+                "day_1": {},
+                "day_2": {},
+                "day_3": {},
+                "day_4": {},
+                "day_5": {},
                 "day_6": {},
-                "day_7": {}
+                "day_7": {}          
             }
         }`
         return JSON.parse(initJSON);
@@ -92,22 +80,23 @@ class Timetable extends Component {
     exampleEvents() {
         const EXAMPLE_EVENTS = `{
             "day_1": {
-                "evt1": {"name": "Mathematics","time_start": "12:15", "time_end": "14:35"},
-                "evt2": {"name": "Gymnastics","time_start": "15:00", "time_end": "16:00"},
-                "evtb": {"name": "Break","time_start": "11:00", "time_end": "12:00"}
+                "evt1": {"name": "Mathematics", "color": "event-blue","time_start": "12:15", "time_end": "14:35"},
+                "evt2": {"name": "Gymnastics", "color": "event-blue","time_start": "15:00", "time_end": "16:00"},
+                "evtb": {"name": "Break", "color": "event-orange","time_start": "11:00", "time_end": "12:00"}
             },
             "day_2": {
-                "evt1": {"name": "English","time_start": "08:15", "time_end": "10:35"},
-                "evtb": {"name": "Break","time_start": "11:00", "time_end": "12:00"}
+                "evt1": {"name": "English", "color": "event-blue","time_start": "08:15", "time_end": "10:35"},
+                "evtb": {"name": "Break", "color": "event-orange","time_start": "11:00", "time_end": "12:00"}
             },
             "day_3": {
-                "evtb": {"name": "Break","time_start": "11:00", "time_end": "12:00"}
+                "evtb": {"name": "Break", "color": "event-orange","time_start": "11:00", "time_end": "12:00"}
             },
             "day_4": {
-                "evtb": {"name": "Break","time_start": "11:00", "time_end": "12:00"}
+                "evtb": {"name": "Break", "color": "event-orange","time_start": "11:00", "time_end": "12:00"},
+                "evtt": {"name": "Test", "color": "event-blue","time_start": "13:00", "time_end": "13:20"}
             },
             "day_5": {
-                "evtb": {"name": "Break","time_start": "11:00", "time_end": "12:00"}
+                "evtb": {"name": "Break", "color": "event-orange","time_start": "11:00", "time_end": "12:00"}
             },
             "day_6": {},
             "day_7": {}
@@ -133,7 +122,7 @@ class Timetable extends Component {
     render() {
 
 
-        console.table(this.state);
+        //console.table(this.state);
         return (
 
             <Container className="bg-odd p-5 container-timetable">

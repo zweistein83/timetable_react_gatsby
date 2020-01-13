@@ -59,10 +59,35 @@
     margin-left: 1.1rem;*/
 }
 
+.event-card:hover{
+    overflow: auto;
+    scroll-behavior: smooth;
+    z-index: 999;
+    min-height: 3rem;
+    /*max-height: 100%;*/
+}
+
 .event-header{
     padding: 0.2rem 0.3rem;
     font-size: 0.7rem;
 }
+
+
+/*
+Event colors:
+*/
+.event-blue{
+    color: white;
+    background-color: blue;
+}
+
+.event-orange{
+    color: black;
+    background-color: coral;
+}
+
+
+
 
 
 .hidden{

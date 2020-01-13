@@ -46,8 +46,6 @@ class TimetableComponent extends Component {
                 rows.push(
                     <BackgroundRow key={i} row_i={i} even={i % 2 === 0} />
                 );
-
-
             }
             return (
                 <React.Fragment>{rows}</React.Fragment>
