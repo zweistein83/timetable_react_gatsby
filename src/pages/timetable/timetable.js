@@ -52,6 +52,41 @@ class Timetable extends Component {
     }
 
 
+    /*
+        Returns an unique hexadecimal string
+    */
+    get_unique_identifier() {
+        const to_hex = n => n.toString(16);
+        let time_stamp = Date.now();
+        time_stamp = to_hex(time_stamp);
+        let random_suffix = Math.floor(Math.random() * 1000);
+        random_suffix = to_hex(random_suffix).padStart(4, "0");
+        return time_stamp + random_suffix;
+    }
+
+    
+    /*
+        Deletes an event specified by an uid (unique identifier) 
+        from the state.
+
+    */
+    deleteEvent(uid){
+        const EVENTS = {...this.state.events};
+        Object.keys(EVENTS).forEach((day)=>{
+            if (uid in EVENTS[day]){
+                console.log(JSON.stringify(EVENTS[day][uid]));
+                delete EVENTS[day][uid];                              
+            }
+            });
+        this.setState({events: EVENTS});
+        console.log(JSON.stringify(this.state));
+
+    }
+
+
+    /*
+        Returns an empty default state. With default settings and no events.
+    */
     emptyState() {
         const initJSON = `{
             "settings": {
@@ -93,23 +128,23 @@ class Timetable extends Component {
     exampleEvents() {
         const EXAMPLE_EVENTS = `{
             "day_1": {
-                "evt1": {"name": "Mathematics", "color": "event-blue","time_start": "12:15", "time_end": "14:35"},
-                "evt2": {"name": "Gymnastics", "color": "event-blue","time_start": "15:00", "time_end": "16:00"},
-                "evtb": {"name": "Break", "color": "event-orange","time_start": "11:00", "time_end": "12:00"}
+                "16fa3d39f0a0331": {"name": "Mathematics", "color": "event-blue","time_start": "12:15", "time_end": "14:35"},
+                "16fa3d39f0a0332": {"name": "Gymnastics", "color": "event-blue","time_start": "15:00", "time_end": "16:00"},
+                "16fa3d39f0a0333": {"name": "Break", "color": "event-orange","time_start": "11:00", "time_end": "12:00"}
             },
             "day_2": {
-                "evt1": {"name": "English", "color": "event-blue","time_start": "08:15", "time_end": "10:35"},
-                "evtb": {"name": "Break", "color": "event-orange","time_start": "11:00", "time_end": "12:00"}
+                "16fa3d39f0a0334": {"name": "English", "color": "event-blue","time_start": "08:15", "time_end": "10:35"},
+                "16fa3d39f0a0335": {"name": "Break", "color": "event-orange","time_start": "11:00", "time_end": "12:00"}
             },
             "day_3": {
-                "evtb": {"name": "Break", "color": "event-orange","time_start": "11:00", "time_end": "12:00"}
+                "16fa3d39f0a0336": {"name": "Break", "color": "event-orange","time_start": "11:00", "time_end": "12:00"}
             },
             "day_4": {
-                "evtb": {"name": "Break", "color": "event-orange","time_start": "11:00", "time_end": "12:00"},
-                "evtt": {"name": "Test", "color": "event-blue","time_start": "13:00", "time_end": "13:20"}
+                "16fa3d39f0a0337": {"name": "Break", "color": "event-orange","time_start": "11:00", "time_end": "12:00"},
+                "16fa3d39f0a0338": {"name": "Test", "color": "event-blue","time_start": "13:00", "time_end": "13:20"}
             },
             "day_5": {
-                "evtb": {"name": "Break", "color": "event-orange","time_start": "11:00", "time_end": "12:00"}
+                "16fa3d39f0a0339": {"name": "Break", "color": "event-orange","time_start": "11:00", "time_end": "12:00"}
             },
             "day_6": {},
             "day_7": {}
@@ -148,6 +183,10 @@ class Timetable extends Component {
                             <Button size="sm" >Edit event</Button>
                             <Button size="sm" onClick={() => this.exampleEvents()}>Example events</Button>
                             <Button size="sm" onClick={() => this.clearEvents()}>Clear events</Button>
+                            <Button size="sm" onClick={() => this.deleteEvent("16fa3d39f0a0338")}>Delete test</Button>
+
+
+                            
                         </ButtonGroup>
                     </NavItem>
 
