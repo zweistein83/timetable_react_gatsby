@@ -81,15 +81,19 @@
     width:90%;
     margin-left: 0.5rem;    
     overflow: hidden;
+    min-height: 100%;
+    transition: min-height 0.5s;
+    transition-timing-function: ease-in-out;
     /*margin-right: 0px;
     margin-left: 1.1rem;*/
 }
 
 .event-card:hover{
-    overflow: auto;
+    /*overflow: visible;*/
     scroll-behavior: smooth;
     z-index: 999;
     min-height: 3rem;
+    
     /*max-height: 100%;*/
 }
 

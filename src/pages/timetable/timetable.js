@@ -22,6 +22,11 @@ import "./css/timetable.css";
         - Pass function from timetable to eventComponent.
 
 
+
+    - Make webstorage only save events and settings.
+        Leave all other parameters.
+
+
     IDEAS:
 
     Design siden som en almanakk. Sider faller ut av skjermen når man forlater dem.
@@ -35,7 +40,7 @@ class Timetable extends Component {
         //colSetting: "col-12 col-xs-2 col-sm-4 col-lg"
         //this.initState = this.initState.bind(this);
 
-        this.json_format_version = "timetable_0.2";
+        this.json_format_version = "timetable_0.21";
 
         this.state = this.initState();
 
@@ -111,8 +116,9 @@ class Timetable extends Component {
     */
     setWebStorage() {
         const WEB_STORAGE = window.localStorage;
+        let to_webstorage = {events:this.state.events, settings:this.state.settings};
         try {
-            WEB_STORAGE.setItem(this.json_format_version, JSON.stringify(this.state));
+            WEB_STORAGE.setItem(this.json_format_version, JSON.stringify(to_webstorage));
         } catch (error) {
             console.error(error);
         }
@@ -129,13 +135,18 @@ class Timetable extends Component {
     */
     initState() {
         const STORAGE_CONTENTS = this.getWebStorage();
+        let tmp_storage = this.emptyState();
         if (STORAGE_CONTENTS === null) {
-            return this.emptyState();
+            return tmp_storage;
         }
         else {
-            return STORAGE_CONTENTS;
+            tmp_storage.events = STORAGE_CONTENTS.events;
+            tmp_storage.settings = STORAGE_CONTENTS.settings;
+            return tmp_storage;
         }
     }
+
+   
 
 
 
@@ -189,7 +200,7 @@ class Timetable extends Component {
     */
     emptyState() {
         const initJSON = `{
-            "is_modal_open": true,
+            "is_modal_open": false,
             "settings": {
                 "day_names": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
                 "starthour": 5,
