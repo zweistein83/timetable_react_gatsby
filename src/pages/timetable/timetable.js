@@ -33,8 +33,8 @@ class Timetable extends Component {
         //colSetting: "col-12 col-xs-2 col-sm-4 col-lg"
         //this.initState = this.initState.bind(this);
 
-
-        this.state = this.emptyState();
+        this.json_format_version = "timetable_0.1";
+        this.state = this.initState();
         //console.log(JSON.stringify(this.state));
 
         /*
@@ -52,6 +52,60 @@ class Timetable extends Component {
     }
 
 
+
+
+    /*
+        Returns contents of local webstorage for the current json_format_version.
+        Returns null, if there is no data for current json_format_version in webstorage.
+    */
+    getWebStorage() {
+        const WEB_STORAGE = window.localStorage;
+        let STORAGE_CONTENTS = null;
+        try {
+            STORAGE_CONTENTS = WEB_STORAGE.getItem(this.json_format_version);
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+        //console.log(STORAGE_CONTENTS);
+        return JSON.parse(STORAGE_CONTENTS);
+
+    }
+
+    /*
+        Saves state to local webstorage
+    */
+    setWebStorage() {
+        const WEB_STORAGE = window.localStorage;
+        try {
+            WEB_STORAGE.setItem(this.json_format_version, JSON.stringify(this.state));
+        } catch(error){
+            console.error(error);
+        }
+    }
+
+
+
+
+
+
+    /*
+        Initializes state with saved settings if these exist.
+        If no saved settings exist its initalized with an empty default state.
+    */
+    initState() {
+        const STORAGE_CONTENTS = this.getWebStorage();
+        if (STORAGE_CONTENTS === null) {
+            return this.emptyState();
+        }
+        else {
+            return STORAGE_CONTENTS;
+        }
+    }
+
+
+
+
     /*
         Returns an unique hexadecimal string
     */
@@ -65,29 +119,32 @@ class Timetable extends Component {
     }
 
 
-    createEvent(day_id, evt_name, evt_color, evt_time_start, evt_time_end){
-        const EVENTS = {...this.state.events};
-        const EVT_OBJ = {name:evt_name, color: evt_color, time_start: evt_time_start, time_end: evt_time_end};
+    /*
+        Creates an event and adds it to the state.
+    */
+    createEvent(day_id, evt_name, evt_color, evt_time_start, evt_time_end) {
+        const EVENTS = { ...this.state.events };
+        const EVT_OBJ = { name: evt_name, color: evt_color, time_start: evt_time_start, time_end: evt_time_end };
         EVENTS[day_id][this.get_unique_identifier().toString()] = EVT_OBJ;
-        this.setState({events: EVENTS});
+        this.setState({ events: EVENTS });
         //"16fa3d39f0a0331": {"name": "Mathematics", "color": "event-blue","time_start": "12:15", "time_end": "14:35"},
     }
 
-    
+
     /*
         Deletes an event specified by an uid (unique identifier) 
         from the state.
 
     */
-    deleteEvent(uid){
-        const EVENTS = {...this.state.events};
-        Object.keys(EVENTS).forEach((day)=>{
-            if (uid in EVENTS[day]){
+    deleteEvent(uid) {
+        const EVENTS = { ...this.state.events };
+        Object.keys(EVENTS).forEach((day) => {
+            if (uid in EVENTS[day]) {
                 console.log(JSON.stringify(EVENTS[day][uid]));
-                delete EVENTS[day][uid];                              
+                delete EVENTS[day][uid];
             }
-            });
-        this.setState({events: EVENTS});
+        });
+        this.setState({ events: EVENTS });
         console.log(JSON.stringify(this.state));
 
     }
@@ -119,6 +176,10 @@ class Timetable extends Component {
 
     }
 
+
+    /*
+        Clears all events inside state.
+    */
     clearEvents() {
 
         const EMPTY_EVENTS = `{
@@ -134,6 +195,9 @@ class Timetable extends Component {
         this.setState({ events: JSON.parse(EMPTY_EVENTS) });
     }
 
+    /*
+        Replaces all events in state with example data.
+    */
     exampleEvents() {
         const EXAMPLE_EVENTS = `{
             "day_1": {
@@ -187,15 +251,16 @@ class Timetable extends Component {
                 <Nav>
                     <NavItem>
                         <ButtonGroup>
-                            <Button size="sm" onClick={() => this.createEvent("day_6", "Created", "evt-orange", "16:00", "17:00" )}>Add event</Button>
+                            <Button size="sm" onClick={() => this.createEvent("day_6", "Created", "evt-orange", "16:00", "17:00")}>Add event</Button>
 
                             <Button size="sm" >Edit event</Button>
                             <Button size="sm" onClick={() => this.exampleEvents()}>Example events</Button>
                             <Button size="sm" onClick={() => this.clearEvents()}>Clear events</Button>
+                            <Button size="sm" onClick={() => this.setWebStorage()}>Save events</Button>
                             <Button size="sm" onClick={() => this.deleteEvent("16fa3d39f0a0338")}>Delete test</Button>
 
 
-                            
+
                         </ButtonGroup>
                     </NavItem>
 
