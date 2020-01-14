@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, Container, Card, CardHeader, CardBody } from "reactstrap";
+import { Col, Card, CardHeader, CardBody } from "reactstrap";
 
 class EventsComponent extends Component {
     /*
@@ -34,7 +34,7 @@ class EventsComponent extends Component {
         return this.timeArrayToHours(this.timeToIntArray(time));
     }
 
-    
+
 
 
 

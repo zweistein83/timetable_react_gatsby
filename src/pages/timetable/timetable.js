@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 
-import { Container, Row, Nav, NavItem, NavLink, Button, ButtonGroup } from "reactstrap";
+import { Container, Row, Nav, NavItem, Button, ButtonGroup } from "reactstrap";
 import TimetableComponent from "../../components/timetable/timetableComponent";
 import "./css/timetable.css";
 
 
 /*
     TODO:
-    Make object which contains all event details and settings for timetable. Store in state of Timetable.
+    X Make object which contains all event details and settings for timetable. Store in state of Timetable.
 
-    Pass events grouped by day to evenComponent.
+    X Pass events grouped by day to evenComponent.
 
-    Save to webstorage.
+    X Save to webstorage.
 
-    - If webstorage is empty:
+    X- If webstorage is empty:
         - load this.emptyState 
         else:
         - load webstorage.
@@ -26,6 +26,7 @@ import "./css/timetable.css";
 
     Design siden som en almanakk. Sider faller ut av skjermen når man forlater dem.
 */
+const allowed_keys = ["settings", "events"];
 
 class Timetable extends Component {
     constructor(props) {
@@ -33,8 +34,10 @@ class Timetable extends Component {
         //colSetting: "col-12 col-xs-2 col-sm-4 col-lg"
         //this.initState = this.initState.bind(this);
 
-        this.json_format_version = "timetable_0.1";
+        this.json_format_version = "timetable_0.2";
+
         this.state = this.initState();
+
         //console.log(JSON.stringify(this.state));
 
         /*
@@ -50,9 +53,28 @@ class Timetable extends Component {
 
 
     }
-
-
-
+    /*
+        Checks webstorage if all keys are legal
+        Returns false if an illegal key is found.
+    */
+    isWebStorageKeysLegal(storage_contents) {
+        console.groupCollapsed("isWebStorageKeysLegal");
+        console.log(storage_contents);
+        console.log(allowed_keys);
+        console.groupEnd();
+        if (storage_contents === null) return true;
+        try {
+            Object.keys(storage_contents).forEach((key) => {
+                if (!allowed_keys.includes(key.toString())) {
+                    throw new Error("Illegal key detected: " + key);
+                }
+            });
+        } catch (error) {
+            console.error(error)
+            return false;
+        }
+        return true;
+    }
 
     /*
         Returns contents of local webstorage for the current json_format_version.
@@ -61,15 +83,22 @@ class Timetable extends Component {
     getWebStorage() {
         const WEB_STORAGE = window.localStorage;
         let STORAGE_CONTENTS = null;
+
         try {
             STORAGE_CONTENTS = WEB_STORAGE.getItem(this.json_format_version);
         } catch (error) {
             console.error(error);
+
             return null;
         }
-        //console.log(STORAGE_CONTENTS);
-        return JSON.parse(STORAGE_CONTENTS);
-
+        const STORAGE_CONTENTS_JSON = JSON.parse(STORAGE_CONTENTS)
+        console.groupCollapsed("getWebStorage")
+        console.log(STORAGE_CONTENTS);
+        console.groupEnd();
+        if (this.isWebStorageKeysLegal(STORAGE_CONTENTS_JSON)) {
+            return STORAGE_CONTENTS_JSON;
+        }
+        return null;
     }
 
     /*
@@ -79,7 +108,7 @@ class Timetable extends Component {
         const WEB_STORAGE = window.localStorage;
         try {
             WEB_STORAGE.setItem(this.json_format_version, JSON.stringify(this.state));
-        } catch(error){
+        } catch (error) {
             console.error(error);
         }
     }
