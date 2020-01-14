@@ -64,6 +64,15 @@ class Timetable extends Component {
         return time_stamp + random_suffix;
     }
 
+
+    createEvent(day_id, evt_name, evt_color, evt_time_start, evt_time_end){
+        const EVENTS = {...this.state.events};
+        const EVT_OBJ = {name:evt_name, color: evt_color, time_start: evt_time_start, time_end: evt_time_end};
+        EVENTS[day_id][this.get_unique_identifier().toString()] = EVT_OBJ;
+        this.setState({events: EVENTS});
+        //"16fa3d39f0a0331": {"name": "Mathematics", "color": "event-blue","time_start": "12:15", "time_end": "14:35"},
+    }
+
     
     /*
         Deletes an event specified by an uid (unique identifier) 
@@ -169,7 +178,7 @@ class Timetable extends Component {
 
     render() {
 
-
+        //"16fa3d39f0a0331": {"name": "Mathematics", "color": "event-blue","time_start": "12:15", "time_end": "14:35"},
         //console.table(this.state);
         return (
 
@@ -178,7 +187,7 @@ class Timetable extends Component {
                 <Nav>
                     <NavItem>
                         <ButtonGroup>
-                            <Button size="sm" onClick={() => this.changeRowHeight(10)}>Add event</Button>
+                            <Button size="sm" onClick={() => this.createEvent("day_6", "Created", "evt-orange", "16:00", "17:00" )}>Add event</Button>
 
                             <Button size="sm" >Edit event</Button>
                             <Button size="sm" onClick={() => this.exampleEvents()}>Example events</Button>
