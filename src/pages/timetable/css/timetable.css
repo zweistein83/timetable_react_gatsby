@@ -31,8 +31,34 @@
     border-color: black;
     border-width: 0 0.05rem 0.05rem 0.05rem;
     border-radius: 0rem 0rem 0.5rem 0.5rem;
+    
 
 }
+
+
+/*
+@keyframes testani{
+    0%{
+        transform: translateY(0px) rotate(0deg);
+    }
+    50%{
+        transform: rotate(45deg) translateY(0px);
+    }
+    100%{
+        transform: translateY(2000px) rotate(-30deg);
+    }
+}
+
+.container-timetable:hover{
+   
+  
+    transform-origin: 0 0;
+    animation-name: testani; 
+    animation-duration: 2s; 
+    animation-timing-function: ease-in;
+}
+
+*/
 
 .day-row{
     background-color: rgb(82, 82, 82);

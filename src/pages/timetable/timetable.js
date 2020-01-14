@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Container, Row, Nav, NavItem, Button, ButtonGroup } from "reactstrap";
+import { Container, Row, Nav, NavItem, Button, ButtonGroup, Modal, ModalBody, ModalHeader, Form, FormGroup, Input, Label, Col, ButtonToolbar } from "reactstrap";
 import TimetableComponent from "../../components/timetable/timetableComponent";
 import "./css/timetable.css";
 
@@ -27,6 +27,7 @@ import "./css/timetable.css";
     Design siden som en almanakk. Sider faller ut av skjermen når man forlater dem.
 */
 const allowed_keys = ["settings", "events"];
+const event_colors = ["event-blue", "event-orange"];
 
 class Timetable extends Component {
     constructor(props) {
@@ -38,6 +39,8 @@ class Timetable extends Component {
 
         this.state = this.initState();
 
+        this.toggleModal = this.toggleModal.bind(this);
+
         //console.log(JSON.stringify(this.state));
 
         /*
@@ -48,7 +51,9 @@ class Timetable extends Component {
             hour_row_height: 4
         }
         */
-
+        console.groupCollapsed("constructor");
+        console.log(this.state.is_modal_open);
+        console.groupEnd();
 
 
 
@@ -184,6 +189,7 @@ class Timetable extends Component {
     */
     emptyState() {
         const initJSON = `{
+            "is_modal_open": true,
             "settings": {
                 "day_names": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
                 "starthour": 5,
@@ -257,6 +263,18 @@ class Timetable extends Component {
     }
 
 
+    toggleModal(){
+        this.setState({
+            is_modal_open : !this.state.is_modal_open
+        });
+    }
+
+    handleModalFormSubmit(form_event){
+        form_event.preventDefault();
+        console.log(form_event.value);
+    }
+
+
     resetState() {
 
     }
@@ -273,33 +291,101 @@ class Timetable extends Component {
 
         //"16fa3d39f0a0331": {"name": "Mathematics", "color": "event-blue","time_start": "12:15", "time_end": "14:35"},
         //console.table(this.state);
+
+
+        const EventModal = ({editOradd}) => {
+            return (
+                <React.Fragment>
+                    <Modal onSubmit ={this.handleModalFormSubmit} isOpen={this.state.is_modal_open} toggle={this.toggleModal}>
+                        <ModalHeader toggle={this.toggleModal}>{editOradd} event</ModalHeader>
+                        <ModalBody>
+                            <Form>
+                                <FormGroup>
+                                    <Label for="evt_name">Name</Label>
+                                    <Input type="text" name="evt_name" id="evt_name" placeholder="event name" value={this.state.modal_form_name}></Input>
+                                </FormGroup>
+
+                                <FormGroup>
+                                    <Label for="evt_info">Info</Label>
+                                    <Input type="text" name="evt_info" id="evt_info" placeholder="event info / location" value={this.state.modal_form_info}></Input>
+                                </FormGroup>
+                                <Row>
+                                    <FormGroup className="col col-sm-6">
+                                        <Label for="evt_day">Day</Label>
+                                        <Input type="select" name="evt_day" id="evt_day">
+                                            {this.state.settings.day_names.map((day) => {
+                                                return <option key={day} value={day}>{day}</option>
+                                            })}
+                                        </Input>
+                                    </FormGroup>
+
+                                    <FormGroup className="col-12 col-sm-6">
+                                        <Label for="evt_color">Color</Label>
+                                        <Input type="select" name="evt_color" id="evt_color">
+                                            {event_colors.map((evt_color) => {
+                                                return <option key={evt_color} value={evt_color} className={evt_color}>{evt_color.split("-")[1]}</option>
+                                            })}
+                                        </Input>
+                                    </FormGroup>
+
+                                    <FormGroup className="col-12 col-sm-6">
+                                        <Label for="evt_time_start">Start time</Label>
+                                        <Input type="time" name="evt_time_start" id="evt_time_start"></Input>
+                                    </FormGroup>
+
+
+                                    <FormGroup className="col-12 col-sm-6">
+                                        <Label for="evt_time_end">End time</Label>
+                                        <Input type="time" name="evt_time_end" id="evt_time_end"></Input>
+                                    </FormGroup>
+                                </Row>
+                                <ButtonToolbar>
+                                    <Button type="submit" color="primary" size="sm">Add event</Button>
+                                    <Button className="mx-2" size="sm">Cancel</Button>
+                                </ButtonToolbar>
+                            </Form>
+                        </ModalBody>
+                    </Modal>
+                </React.Fragment>
+            );
+        }
+
+
         return (
 
-            <Container className="bg-odd p-5 container-timetable">
 
-                <Nav>
-                    <NavItem>
-                        <ButtonGroup>
-                            <Button size="sm" onClick={() => this.createEvent("day_6", "Created", "evt-orange", "16:00", "17:00")}>Add event</Button>
+            <React.Fragment>
 
-                            <Button size="sm" >Edit event</Button>
-                            <Button size="sm" onClick={() => this.exampleEvents()}>Example events</Button>
-                            <Button size="sm" onClick={() => this.clearEvents()}>Clear events</Button>
-                            <Button size="sm" onClick={() => this.setWebStorage()}>Save events</Button>
-                            <Button size="sm" onClick={() => this.deleteEvent("16fa3d39f0a0338")}>Delete test</Button>
+                <EventModal editOradd = {"Add"} />
+
+                <Container className="bg-odd p-5 container-timetable">
+
+                    <Nav>
+                        <NavItem>
+                            <ButtonGroup>
+                                <Button size="sm" onClick={() => this.toggleModal()}>Add event</Button>
+                                <Button size="sm" onClick={() => this.createEvent("day_6", "Created", "evt-orange", "16:00", "17:00")}>Add test event</Button>
+
+                                <Button size="sm" >Edit event</Button>
+                                <Button size="sm" onClick={() => this.exampleEvents()}>Example events</Button>
+                                <Button size="sm" onClick={() => this.clearEvents()}>Clear events</Button>
+                                <Button size="sm" onClick={() => this.setWebStorage()}>Save events</Button>
+                                <Button size="sm" onClick={() => this.deleteEvent("16fa3d39f0a0338")}>Delete test</Button>
 
 
 
-                        </ButtonGroup>
-                    </NavItem>
+                            </ButtonGroup>
+                        </NavItem>
 
-                </Nav>
+                    </Nav>
 
-                <Row>
+                    <Row>
 
-                    <TimetableComponent settings={this.state.settings} events={this.state.events} />
-                </Row>
-            </Container>
+                        <TimetableComponent settings={this.state.settings} events={this.state.events} />
+                    </Row>
+                </Container>
+            </React.Fragment>
+
         );
     }
 }
