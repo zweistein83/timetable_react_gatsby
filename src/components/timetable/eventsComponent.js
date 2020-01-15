@@ -139,13 +139,18 @@ class EventsComponent extends Component {
             TODO:
             - Make object with event_details. Pass object between elements.
          */
+
+
+
+
         return (
             <React.Fragment>
                 <EventsContainer hour_row_height={this.props.hour_row_height} />
             </React.Fragment>
+            
         );
 
-    }
+}
 
 
 }

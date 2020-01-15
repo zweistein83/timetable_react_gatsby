@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import { Container, Row, Nav, NavItem, Button, ButtonGroup, Modal, ModalBody, ModalHeader, Form, FormGroup, Input, Label, Col, ButtonToolbar } from "reactstrap";
 import TimetableComponent from "../../components/timetable/timetableComponent";
+//import FormValidationHelper from "../../components/timetable/formValidationHelper";
 import "./css/timetable.css";
 
 
@@ -26,6 +27,7 @@ import "./css/timetable.css";
     - Make webstorage only save events and settings.
         Leave all other parameters.
 
+    - Make buttons responsive to screen size.
 
     IDEAS:
 
@@ -39,6 +41,9 @@ class Timetable extends Component {
         super(props);
         //colSetting: "col-12 col-xs-2 col-sm-4 col-lg"
         //this.initState = this.initState.bind(this);
+
+
+        //this.FVH = new FormValidationHelper(()=>this.state,(new_state)=>this.setState());
 
         this.json_format_version = "timetable_0.21";
 
@@ -371,7 +376,7 @@ class Timetable extends Component {
 
             <React.Fragment>
 
-                <EventModal editOradd = {"Add"} />
+                {<EventModal editOradd = {"Add"} />}
 
                 <Container className="bg-odd p-5 container-timetable">
 
