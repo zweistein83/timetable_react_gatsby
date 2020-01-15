@@ -1,6 +1,6 @@
 
 
-export default class FormValidationHelper {
+export default class FormValidationHelper{
 
     /*
         input: state of caller component/page and a function that sets the state of the component/page.
@@ -12,18 +12,32 @@ export default class FormValidationHelper {
         this.handleChange = this.handleChange.bind(this);
         this.handleBlur = this.handleBlur.bind(this);
 
+        this.formData = {};
+
         
         
     }
 
+    setFormData(data_obj){
+        Object.assign(this.formData, data_obj);
+    }
     handleChange(event) {
         const target = event.target;
         const name = target.name;
         const value = target.value;
         console.log("handleChange: "+name + " : " + value);
+        
+
+        this.setFormData(
+            { [name]: value }
+        );
+        console.log(this.formData);
+
+        /*
         this.callerSetState(
             { [name]: value }
         );
+        */
     }
 
 
@@ -94,6 +108,9 @@ export default class FormValidationHelper {
 
         return errors;
     }
+
+
+    
 
 
 
