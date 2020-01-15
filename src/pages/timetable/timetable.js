@@ -134,7 +134,11 @@ class Timetable extends Component {
         If no saved settings exist its initalized with an empty default state.
     */
     initState() {
-        const STORAGE_CONTENTS = this.getWebStorage();
+        /*
+        Fix to let gatsby build the site. Causes "ReferenceError window is not defined"
+        https://www.gatsbyjs.org/docs/debugging-html-builds/
+        */
+        const STORAGE_CONTENTS = typeof window !=="undefined" ? this.getWebStorage() : null;
         let tmp_storage = this.emptyState();
         if (STORAGE_CONTENTS === null) {
             return tmp_storage;
