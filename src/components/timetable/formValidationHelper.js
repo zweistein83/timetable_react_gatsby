@@ -1,32 +1,44 @@
 
 
-export default class FormValidationHelper{
+export default class FormValidationHelper {
 
     /*
         input: state of caller component/page and a function that sets the state of the component/page.
     */
     //constructor(callerGetState, callerSetState) {   
-    constructor(callerGetState, callerSetState) {      
+    constructor(callerGetState, callerSetState) {
         this.callerGetState = callerGetState;
         this.callerSetState = callerSetState;
         this.handleChange = this.handleChange.bind(this);
         this.handleBlur = this.handleBlur.bind(this);
 
-        this.formData = {};
+        /*touched: {
+                evt_name: false,
+                evt_info: false,
+                evt_time_start: false,
+                evt_time_end: false,
+                evt_color: false
+            }*/
 
-        
-        
+
+        this.formData = {
+
+
+        };
+
+
+
     }
 
-    setFormData(data_obj){
+    setFormData(data_obj) {
         Object.assign(this.formData, data_obj);
     }
     handleChange(event) {
         const target = event.target;
         const name = target.name;
         const value = target.value;
-        console.log("handleChange: "+name + " : " + value);
-        
+        console.log("handleChange: " + name + " : " + value);
+
 
         this.setFormData(
             { [name]: value }
@@ -42,12 +54,12 @@ export default class FormValidationHelper{
 
 
     handleBlur(field) {
-        this.callerSetState(
+        this.setFormData(
             { touched: { ...this.caller_state, [field]: true } }
         );
     }
 
-    handleSubmit(event){
+    handleSubmit(event) {
         event.preventDefault();
         console.log(event.target);
     }
@@ -57,14 +69,14 @@ export default class FormValidationHelper{
 
 
     validate(evt_name, evt_info) {
-        
+
         /*
             Input: time in format ["HH:MM"]
             Output: time in hours as decimal.
         */
         const timeToHours = (time) => {
-            let timeArr = time.split(":");            
-            return parseInt(timeArr[0]) + (parseInt(timeArr[1])/60);
+            let timeArr = time.split(":");
+            return parseInt(timeArr[0]) + (parseInt(timeArr[1]) / 60);
         };
 
         const cState = this.callerGetState();
@@ -97,7 +109,6 @@ export default class FormValidationHelper{
         }
         */
 
-        
 
 
 
@@ -106,11 +117,14 @@ export default class FormValidationHelper{
 
 
 
+        console.groupCollapsed("Validate:")
+        console.table(errors);
+        console.groupEnd();
         return errors;
     }
 
 
-    
+
 
 
 
