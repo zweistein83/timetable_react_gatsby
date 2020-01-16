@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 
-import { Container, Row, Nav, NavItem, Button, ButtonGroup, Modal, ModalBody, ModalHeader, Form, FormGroup, Input, Label, Col, ButtonToolbar } from "reactstrap";
+import { Container, Row, Nav, NavItem, Button, ButtonGroup, Modal, ModalBody, ModalHeader, } from "reactstrap";
 import TimetableComponent from "../../components/timetable/timetableComponent";
-import FormValidationHelper from "../../components/timetable/formValidationHelper";
+import FormTimetableAddEdit from "../../components/timetable/formTimetableAddEdit";
+
 import "./css/timetable.css";
+
 
 
 /*
@@ -34,7 +36,7 @@ import "./css/timetable.css";
     Design siden som en almanakk. Sider faller ut av skjermen når man forlater dem.
 */
 const allowed_keys = ["settings", "events"];
-const event_colors = ["event-blue", "event-orange"];
+const event_colors = ["event-blue", "event-green", "event-orange"];
 
 class Timetable extends Component {
     constructor(props) {
@@ -53,8 +55,8 @@ class Timetable extends Component {
 
         this.externalSetState = this.externalSetState.bind(this);
         this.externalGetState = this.externalGetState.bind(this);
-
-        this.FVH = new FormValidationHelper(this.externalGetState, this.externalSetState);
+        this.createTimetableEvent = this.createTimetableEvent.bind(this);
+        //this.FVH = new FormValidationHelper(this.externalGetState, this.externalSetState);
 
         //console.log(JSON.stringify(this.state));
 
@@ -190,7 +192,7 @@ class Timetable extends Component {
     /*
         Creates an event and adds it to the state.
     */
-    createEvent(day_id, evt_name, evt_color, evt_time_start, evt_time_end) {
+    createTimetableEvent(day_id, evt_name, evt_color, evt_time_start, evt_time_end) {
         const EVENTS = { ...this.state.events };
         const EVT_OBJ = { name: evt_name, color: evt_color, time_start: evt_time_start, time_end: evt_time_end };
         EVENTS[day_id][this.get_unique_identifier().toString()] = EVT_OBJ;
@@ -322,71 +324,24 @@ class Timetable extends Component {
 
         //"16fa3d39f0a0331": {"name": "Mathematics", "color": "event-blue","time_start": "12:15", "time_end": "14:35"},
         //console.table(this.state);
-        const formValidator = this.FVH.validate;
-        const handleSubmit = this.FVH.handleSubmit;
-        const handleBlur = this.FVH.handleBlur;
-        const handleChange = this.FVH.handleChange;
+        //const formValidator = this.FVH.validate;
+        //const handleSubmit = this.FVH.handleSubmit;
+        //const handleBlur = this.FVH.handleBlur;
+        //const handleChange = this.FVH.handleChange;
         
         
 
         const EventModal = ({editOradd}) => {
             return (
                 <React.Fragment>
-                    <Modal onSubmit ={handleSubmit} isOpen={this.state.is_modal_open} toggle={this.toggleModal}>
+                    <Modal  isOpen={this.state.is_modal_open} toggle={this.toggleModal}>
                         <ModalHeader toggle={this.toggleModal}>{editOradd} event</ModalHeader>
                         <ModalBody>
-                            <Form>
-                                <FormGroup>
-                                    <Label for="evt_name">Name</Label>
-                                    <Input type="text" name="evt_name" id="evt_name" placeholder="event name" 
-                                    value={this.state.modal_form_name}
-                                    onChange={this.handleChange}
-                                    >                                       
-                                    </Input>
-                                </FormGroup>
-
-                                <FormGroup>
-                                    <Label for="evt_info">Info</Label>
-                                    <Input type="text" name="evt_info" id="evt_info" placeholder="event info / location" 
-                                    value={this.state.modal_form_info}
-                                    onChange={this.handleChange}
-                                    ></Input>
-                                </FormGroup>
-                                <Row>
-                                    <FormGroup className="col col-sm-6">
-                                        <Label for="evt_day">Day</Label>
-                                        <Input type="select" name="evt_day" id="evt_day" onChange={handleChange}>
-                                            {this.state.settings.day_names.map((day) => {
-                                                return <option key={day} value={day}>{day}</option>
-                                            })}
-                                        </Input>
-                                    </FormGroup>
-
-                                    <FormGroup className="col-12 col-sm-6">
-                                        <Label for="evt_color">Color</Label>
-                                        <Input type="select" name="evt_color" id="evt_color" onChange={handleChange}>
-                                            {event_colors.map((evt_color) => {
-                                                return <option key={evt_color} value={evt_color} className={evt_color}>{evt_color.split("-")[1]}</option>
-                                            })}
-                                        </Input>
-                                    </FormGroup>
-
-                                    <FormGroup className="col-12 col-sm-6">
-                                        <Label for="evt_time_start">Start time</Label>
-                                        <Input type="time" name="evt_time_start" id="evt_time_start" onChange={handleChange}></Input>
-                                    </FormGroup>
-
-
-                                    <FormGroup className="col-12 col-sm-6">
-                                        <Label for="evt_time_end">End time</Label>
-                                        <Input type="time" name="evt_time_end" id="evt_time_end" onChange={handleChange}></Input>
-                                    </FormGroup>
-                                </Row>
-                                <ButtonToolbar>
-                                    <Button type="submit" color="primary" size="sm">Add event</Button>
-                                    <Button className="mx-2" size="sm">Cancel</Button>
-                                </ButtonToolbar>
-                            </Form>
+                            <FormTimetableAddEdit 
+                            day_names={this.state.settings.day_names}
+                            event_colors = {event_colors}
+                            createTimetableEvent={this.createTimetableEvent} 
+                            />
                         </ModalBody>
                     </Modal>
                 </React.Fragment>
@@ -407,7 +362,7 @@ class Timetable extends Component {
                         <NavItem>
                             <ButtonGroup>
                                 <Button size="sm" onClick={() => this.toggleModal()}>Add event</Button>
-                                <Button size="sm" onClick={() => this.createEvent("day_6", "Created", "evt-orange", "16:00", "17:00")}>Add test event</Button>
+                                <Button size="sm" onClick={() => this.createTimetableEvent("day_6", "Created", "evt-orange", "16:00", "17:00")}>Add test event</Button>
 
                                 <Button size="sm" onClick={()=>{this.FVH.callerSetState({test:"testing"})
                                     console.log(this.state)}}>Edit event</Button>
@@ -425,7 +380,7 @@ class Timetable extends Component {
 
                     <Row>
 
-                        <TimetableComponent settings={this.state.settings} events={this.state.events} />
+                        <TimetableComponent settings={this.state.settings} events={this.state.events}/>
                     </Row>
                 </Container>
             </React.Fragment>

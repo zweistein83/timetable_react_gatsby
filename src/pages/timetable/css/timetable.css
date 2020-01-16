@@ -111,6 +111,11 @@ Event colors:
     background-color: blue;
 }
 
+.event-green{
+    color: white;
+    background-color: green;
+}
+
 .event-orange{
     color: black;
     background-color: coral;
