@@ -14,29 +14,18 @@ export default class FormTimetableAddEdit extends Component {
 
 
     */
-
-
-    /*
-        input: state of caller component/page and a function that sets the state of the component/page.
-    */
-    //constructor(callerGetState, callerSetState) {   
+    
     constructor(props) {
-        //this.callerGetState = callerGetState;
-        //this.callerSetState = callerSetState;
+       
         super(props);
-        this.handleChange = this.handleChange.bind(this);
-        //this.handleBlur = this.handleBlur.bind(this);
-        this.validate = this.validate.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-
-
-
-
+        
         this.state = {
             evt_name: "",
             evt_info: "",
             evt_color: this.props.event_colors[0],
             evt_day: "day_1",
+            evt_time_start: "",
+            evt_time_end: "",
 
             touched: {
                 evt_name: false,
@@ -58,7 +47,7 @@ export default class FormTimetableAddEdit extends Component {
         Object.assign(this.formData, data_obj);
     }
     */
-    handleChange(event) {
+    handleChange = (event) => {
         const target = event.target;
         const name = target.name;
         const value = target.value;
@@ -78,28 +67,42 @@ export default class FormTimetableAddEdit extends Component {
     }
 
 
-    handleBlur(field) {
+    handleBlur = (field) => {
         console.log(field);
         this.setState(
             { touched: { ...this.state.touched, [field]: true } }
         );
     }
 
-    handleSubmit(event) {
+    handleSubmit = (event) => {
         event.preventDefault();
         console.group("FORM SUBMIT");
         console.log(this.state);
+        console.log(event);
         console.groupEnd();
 
+        // Only create event if there are no errors / all error.values are empty.
+        const errors = this.validate();
+        if (Object.keys(errors).reduce((acc, key) => acc && errors[key] === "", true)) {
+            console.log("Sucessfully created event");
+            this.props.createTimetableEvent(this.state.evt_day, this.state.evt_name, this.state.evt_color, this.state.evt_time_start, this.state.evt_time_end);
+
+        }
+        else console.log("There was an error");
+        console.groupEnd();
         // Updates state inside timetable.js
-        this.props.createTimetableEvent(this.state.evt_day, this.state.evt_name, this.state.evt_color, this.state.evt_time_start, this.state.evt_time_end);
+
     }
 
 
 
 
 
-    validate(evt_name, evt_info) {
+    validate = () => {
+        const evt_name = this.state.evt_name;
+        const evt_info = this.state.evt_info;
+        const evt_time_start = this.state.evt_time_start;
+        const evt_time_end = this.state.evt_time_end;
 
         /*
             Input: time in format ["HH:MM"]
@@ -109,13 +112,10 @@ export default class FormTimetableAddEdit extends Component {
         console.groupCollapsed("form validate");
         console.log(evt_name);
         console.log("TOUCHED:")
-        console.log(this.state.touched);
+        console.table(this.state);
 
 
-        const timeToHours = (time) => {
-            let timeArr = time.split(":");
-            return parseInt(timeArr[0]) + (parseInt(timeArr[1]) / 60);
-        };
+
 
 
         var errors = {
@@ -151,7 +151,49 @@ export default class FormTimetableAddEdit extends Component {
         }
         */
 
+        // TIME VALIDATION:
 
+        const isHoursValid = (time) => {
+            const hours = parseInt(time.split(":")[0]);
+            if (hours >= 0 && hours <= 24) return true;
+            return false;
+        };
+
+        const isMinutesValid = (time) => {
+            const minutes = parseInt(time.split(":")[1]);
+            if (minutes >= 0 && minutes <= 59) return true;
+            return false;
+        };
+
+        const isTimeValid = (time) => {
+            return isHoursValid(time) && isMinutesValid(time);
+        }
+
+        const timeToHours = (time) => {
+            let timeArr = time.split(":");
+            return parseInt(timeArr[0]) + (parseInt(timeArr[1]) / 60);
+        };
+
+        console.log("TIME FUCKING START = " + evt_time_start);
+        console.log("TIME FUCKING END = " + evt_time_end);
+        if (evt_time_start && evt_time_end) {
+            // TIME START:
+            if (!isTimeValid(evt_time_start)) {
+                errors.evt_time_start = "Illegal time. Must be in format \"HH:MM\"";
+            };
+
+            // TIME END
+            if (!isTimeValid(evt_time_end)) {
+                errors.evt_time_end = "Illegal time. Must be in format \"HH:MM\"";
+            };
+
+            // time_end must be later than time_start
+
+            if (timeToHours(evt_time_start) >= timeToHours(evt_time_end)) {
+                errors.evt_time_end = "End time must be later than start time";
+                errors.evt_time_start = "Start time must be before end time";
+            }
+        }
 
 
 
@@ -170,7 +212,7 @@ export default class FormTimetableAddEdit extends Component {
 
 
     render() {
-        const errors = this.validate(this.state.evt_name, this.state.evt_info);
+        const errors = this.validate();
         return (
             <Form onSubmit={this.handleSubmit}>
                 <FormGroup>
@@ -192,7 +234,7 @@ export default class FormTimetableAddEdit extends Component {
                     <Input type="text" name="evt_info" id="evt_info" placeholder="event info / location"
                         value={this.props.modal_form_info}
                         onChange={this.handleChange}
-                        valid={errors.evt_info === ""}
+                        valid={this.state.evt_name !== "" && errors.evt_info === ""}
                         invalid={errors.evt_info !== ""}
                     ></Input>
                 </FormGroup>
@@ -217,21 +259,31 @@ export default class FormTimetableAddEdit extends Component {
 
                     <FormGroup className="col-12 col-sm-6">
                         <Label for="evt_time_start">Start time</Label>
-                        <Input type="time" name="evt_time_start" id="evt_time_start" onChange={this.handleChange}
+                        <Input type="time" name="evt_time_start" id="evt_time_start"
+                            value={this.state.evt_time_start}
+                            onChange={this.handleChange}
                             required
+                            valid={this.state.evt_time_start !== "" && errors.evt_time_start === ""}
+                            invalid={errors.evt_time_start !== ""}
                         />
+                        <FormFeedback>{errors.evt_time_start}</FormFeedback>
                     </FormGroup>
 
 
                     <FormGroup className="col-12 col-sm-6">
                         <Label for="evt_time_end">End time</Label>
-                        <Input type="time" name="evt_time_end" id="evt_time_end" onChange={this.handleChange}
+                        <Input type="time" name="evt_time_end" id="evt_time_end"
+                            value={this.state.evt_time_end}
+                            onChange={this.handleChange}
                             required
+                            valid={this.state.evt_time_end !== "" && errors.evt_time_end === ""}
+                            invalid={errors.evt_time_end !== ""}
                         />
+                        <FormFeedback>{errors.evt_time_end}</FormFeedback>
                     </FormGroup>
                 </Row>
                 <ButtonToolbar>
-                    <Button type="submit" color="primary" size="sm">Add event</Button>
+                    <Button type="submit" value="submit" color="primary" size="sm">Add event</Button>
                     <Button className="mx-2" size="sm">Cancel</Button>
                 </ButtonToolbar>
             </Form>
