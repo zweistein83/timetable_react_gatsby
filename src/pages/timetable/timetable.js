@@ -362,14 +362,13 @@ class Timetable extends Component {
                         <NavItem>
                             <ButtonGroup>
                                 <Button size="sm" onClick={() => this.toggleModal()}>Add event</Button>
-                                <Button size="sm" onClick={() => this.createTimetableEvent("day_6", "Created", "evt-orange", "16:00", "17:00")}>Add test event</Button>
+                                {/*<Button size="sm" onClick={() => this.createTimetableEvent("day_6", "Created", "evt-orange", "16:00", "17:00")}>Add test event</Button>*/}
 
-                                <Button size="sm" onClick={()=>{this.FVH.callerSetState({test:"testing"})
-                                    console.log(this.state)}}>Edit event</Button>
+                                {/*<Button size="sm" onClick={()=>{this.FVH.callerSetState({test:"testing"}); console.log(this.state)}}>Edit event</Button>*/}
                                 <Button size="sm" onClick={() => this.exampleEvents()}>Example events</Button>
                                 <Button size="sm" onClick={() => this.clearEvents()}>Clear events</Button>
                                 <Button size="sm" onClick={() => this.setWebStorage()}>Save events</Button>
-                                <Button size="sm" onClick={() => this.deleteEvent("16fa3d39f0a0338")}>Delete test</Button>
+                                {/*<Button size="sm" onClick={() => this.deleteEvent("16fa3d39f0a0338")}>Delete test</Button>*/}
 
 
 
