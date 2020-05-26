@@ -174,8 +174,8 @@ export default class FormTimetableAddEdit extends Component {
             return parseInt(timeArr[0]) + (parseInt(timeArr[1]) / 60);
         };
 
-        console.log("TIME FUCKING START = " + evt_time_start);
-        console.log("TIME FUCKING END = " + evt_time_end);
+        console.log("TIME START = " + evt_time_start);
+        console.log("TIME END = " + evt_time_end);
         if (evt_time_start && evt_time_end) {
             // TIME START:
             if (!isTimeValid(evt_time_start)) {
