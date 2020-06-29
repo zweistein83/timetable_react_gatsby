@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Row, Button, Form, FormGroup, Input, Label, ButtonToolbar, FormFeedback } from "reactstrap";
 import { isTimeValid } from "../../helper_functions/time_validation";
-import { timeToHours } from "../../helper_functions/time_convertion";
+import { timeToHours } from "../../helper_functions/time_conversion";
 export default class FormTimetableAddEdit extends Component {
 
 

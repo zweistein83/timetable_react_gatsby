@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { Container, Row, Nav, NavItem, Button, ButtonGroup, Modal, ModalBody, ModalHeader, } from "reactstrap";
 import TimetableComponent from "../../components/timetable/timetableComponent";
 import FormTimetableAddEdit from "../../components/timetable/formTimetableAddEdit";
+import {get_unique_identifier} from "../../helper_functions/unique_identifier";
 
 import "./css/timetable.css";
 
@@ -35,9 +36,12 @@ import "./css/timetable.css";
 
     Design siden som en almanakk. Sider faller ut av skjermen når man forlater dem.
 */
-const allowed_keys = ["settings", "events"];
-const event_colors = ["event-blue", "event-green", "event-orange"];
+const ALLOWED_KEYS = ["settings", "events"];
+const EVENT_COLORS = ["event-blue", "event-green", "event-orange"];
 
+/**
+ * Timetable Component
+ */
 class Timetable extends Component {
     constructor(props) {
         super(props);
@@ -76,27 +80,38 @@ class Timetable extends Component {
 
     }
 
+    /**
+     * Sets state. Can be called from outside component
+     * @param {*} new_state 
+     */
     externalSetState(new_state){
         this.setState(new_state);
     }
 
+    /**
+     * Gets state. Can be called from outside component
+     */
     externalGetState(){
         return this.state;
     }
 
-    /*
-        Checks webstorage if all keys are legal
-        Returns false if an illegal key is found.
-    */
+   
+
+    /**
+     * Checks webstorage if all keys are legal
+     * @param {*} storage_contents
+     * @return {boolean} - true if legal else false 
+     */
+
     isWebStorageKeysLegal(storage_contents) {
         console.groupCollapsed("isWebStorageKeysLegal");
         console.log(storage_contents);
-        console.log(allowed_keys);
+        console.log(ALLOWED_KEYS);
         console.groupEnd();
         if (storage_contents === null) return true;
         try {
             Object.keys(storage_contents).forEach((key) => {
-                if (!allowed_keys.includes(key.toString())) {
+                if (!ALLOWED_KEYS.includes(key.toString())) {
                     throw new Error("Illegal key detected: " + key);
                 }
             });
@@ -107,24 +122,25 @@ class Timetable extends Component {
         return true;
     }
 
-    /*
-        Returns contents of local webstorage for the current json_format_version.
-        Returns null, if there is no data for current json_format_version in webstorage.
-    */
+   
+    /**
+     * Returns contents of local webstorage for the current json_format_version.
+     * Returns null, if there is no data for current json_format_version in webstorage.
+     */
     getWebStorage() {
         const WEB_STORAGE = window.localStorage;
-        let STORAGE_CONTENTS = null;
+        let storage_contents = null;
 
         try {
-            STORAGE_CONTENTS = WEB_STORAGE.getItem(this.json_format_version);
+            storage_contents = WEB_STORAGE.getItem(this.json_format_version);
         } catch (error) {
             console.error(error);
 
             return null;
         }
-        const STORAGE_CONTENTS_JSON = JSON.parse(STORAGE_CONTENTS)
+        const STORAGE_CONTENTS_JSON = JSON.parse(storage_contents)
         console.groupCollapsed("getWebStorage")
-        console.log(STORAGE_CONTENTS);
+        console.log(storage_contents);
         console.groupEnd();
         if (this.isWebStorageKeysLegal(STORAGE_CONTENTS_JSON)) {
             return STORAGE_CONTENTS_JSON;
@@ -132,8 +148,9 @@ class Timetable extends Component {
         return null;
     }
 
-    /*
-        Saves state to local webstorage
+   
+   /**
+    * Saves state to local webstorage
     */
     setWebStorage() {
         const WEB_STORAGE = window.localStorage;
@@ -148,12 +165,10 @@ class Timetable extends Component {
 
 
 
-
-
-    /*
-        Initializes state with saved settings if these exist.
-        If no saved settings exist its initalized with an empty default state.
-    */
+    /**
+     * Initializes state with saved settings if these exist.
+     * If no saved settings exist its initalized with an empty default state.
+     */
     initState() {
         /*
         Fix to let gatsby build the site. Causes "ReferenceError window is not defined"
@@ -170,32 +185,23 @@ class Timetable extends Component {
             return tmp_storage;
         }
     }
+    
 
-   
+    
 
-
-
-
-    /*
-        Returns an unique hexadecimal string
-    */
-    get_unique_identifier() {
-        const to_hex = n => n.toString(16);
-        let time_stamp = Date.now();
-        time_stamp = to_hex(time_stamp);
-        let random_suffix = Math.floor(Math.random() * 1000);
-        random_suffix = to_hex(random_suffix).padStart(4, "0");
-        return time_stamp + random_suffix;
-    }
-
-
-    /*
-        Creates an event and adds it to the state.
-    */
+    /**
+     * Creates an event and adds it to the state.
+     * 
+     * @param {string} day_id   -   
+     * @param {string} evt_name     
+     * @param {string} evt_color 
+     * @param {*} evt_time_start 
+     * @param {*} evt_time_end 
+     */
     createTimetableEvent(day_id, evt_name, evt_color, evt_time_start, evt_time_end) {
         const EVENTS = { ...this.state.events };
         const EVT_OBJ = { name: evt_name, color: evt_color, time_start: evt_time_start, time_end: evt_time_end };
-        EVENTS[day_id][this.get_unique_identifier().toString()] = EVT_OBJ;
+        EVENTS[day_id][get_unique_identifier().toString()] = EVT_OBJ;
         this.setState({ events: EVENTS });
         //"16fa3d39f0a0331": {"name": "Mathematics", "color": "event-blue","time_start": "12:15", "time_end": "14:35"},
     }
@@ -206,6 +212,11 @@ class Timetable extends Component {
         from the state.
 
     */
+
+    /**
+     * Deletes an event
+     * @param {string} uid - unique event-id
+     */
     deleteEvent(uid) {
         const EVENTS = { ...this.state.events };
         Object.keys(EVENTS).forEach((day) => {
@@ -220,8 +231,9 @@ class Timetable extends Component {
     }
 
 
-    /*
-        Returns an empty default state. With default settings and no events.
+    
+   /**
+    * Returns an empty default state. With default settings and no events.
     */
     emptyState() {
         const initJSON = `{
@@ -248,8 +260,9 @@ class Timetable extends Component {
     }
 
 
-    /*
-        Clears all events inside state.
+   
+   /**
+    *  Clears all events inside state.
     */
     clearEvents() {
 
@@ -266,9 +279,11 @@ class Timetable extends Component {
         this.setState({ events: JSON.parse(EMPTY_EVENTS) });
     }
 
-    /*
-        Replaces all events in state with example data.
-    */
+    
+
+    /**
+     * Replaces all events in state with example data.
+     */
     exampleEvents() {
         const EXAMPLE_EVENTS = `{
             "day_1": {
@@ -298,7 +313,9 @@ class Timetable extends Component {
 
     }
 
-
+    /**
+     * Toggles the modal containing the form for adding new events.
+     */
     toggleModal(){
         this.setState({
             is_modal_open : !this.state.is_modal_open
@@ -312,6 +329,10 @@ class Timetable extends Component {
 
     }
 
+    /**
+     * Changes the row height.
+     * @param {number} r_height 
+     */
     changeRowHeight(r_height) {
         const tmp_settings = { ...this.state.settings }
         tmp_settings.hour_row_height = r_height;
@@ -330,7 +351,10 @@ class Timetable extends Component {
         //const handleChange = this.FVH.handleChange;
         
         
-
+        /**
+         * Modal for editing or adding events
+         * @param {*} editOradd 
+         */
         const EventModal = ({editOradd}) => {
             return (
                 <React.Fragment>
@@ -339,7 +363,7 @@ class Timetable extends Component {
                         <ModalBody>
                             <FormTimetableAddEdit 
                             day_names={this.state.settings.day_names}
-                            event_colors = {event_colors}
+                            event_colors = {EVENT_COLORS}
                             createTimetableEvent={this.createTimetableEvent} 
                             />
                         </ModalBody>

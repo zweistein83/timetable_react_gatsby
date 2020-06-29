@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Col, Card, CardHeader, CardBody } from "reactstrap";
-import { timeToHours } from "../../helper_functions/time_convertion";
+import { timeToHours } from "../../helper_functions/time_conversion";
 
 class EventsComponent extends Component {
     /*
