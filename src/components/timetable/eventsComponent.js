@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Col, Card, CardHeader, CardBody } from "reactstrap";
+import {timeToHours} from "../../helper_functions/time_convertion";
 
 class EventsComponent extends Component {
     /*
@@ -8,36 +9,11 @@ class EventsComponent extends Component {
     constructor(props) {
         super(props);
 
-        this.timeToHours = this.timeToHours.bind(this);
+        
     }
 
 
-    /*  
-        timeToIntarray(time):
-        Input: time as "HH:MM"
-        Output: time as [H,M] where H and M are integers
-    */
-    timeToIntArray(time) {
-        return time.split(":").map((s) => parseInt(s));
-    }
-
-    /*
-        timeArrayToHours(timeArr)
-        Input: time as [H,M] where H and M are integers
-        Output: time in hours as a decimal.
-    */
-    timeArrayToHours(timeArr) {
-        return timeArr[0] + (timeArr[1] / 60)
-    }
-
-    timeToHours(time) {
-        return this.timeArrayToHours(this.timeToIntArray(time));
-    }
-
-
-
-
-
+     
 
     render() {
         //console.log("TIME: " + this.timeToIntArray("20:35"));
@@ -93,8 +69,8 @@ class EventsComponent extends Component {
             //console.log("time_start: " + time_start);
             //console.log("time_end: " + time_end);
             //console.log(this.timeToHours);
-            const start_hour = this.timeToHours(time_start);
-            const end_hour = this.timeToHours(time_end);
+            const start_hour = timeToHours(time_start);
+            const end_hour = timeToHours(time_end);
             const start_hour_to_top_pos = (time) => {
                 return ((time - STARTHOUR) * hour_row_height) + "rem";
             };

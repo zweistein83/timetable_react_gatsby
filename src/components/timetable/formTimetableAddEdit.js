@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Row, Button, Form, FormGroup, Input, Label, ButtonToolbar, FormFeedback } from "reactstrap";
+import {isTimeValid} from "../../helper_functions/time_validation";
+import {timeToHours} from "../../helper_functions/time_convertion";
 export default class FormTimetableAddEdit extends Component {
 
 
@@ -151,28 +153,7 @@ export default class FormTimetableAddEdit extends Component {
         }
         */
 
-        // TIME VALIDATION:
-
-        const isHoursValid = (time) => {
-            const hours = parseInt(time.split(":")[0]);
-            if (hours >= 0 && hours <= 24) return true;
-            return false;
-        };
-
-        const isMinutesValid = (time) => {
-            const minutes = parseInt(time.split(":")[1]);
-            if (minutes >= 0 && minutes <= 59) return true;
-            return false;
-        };
-
-        const isTimeValid = (time) => {
-            return isHoursValid(time) && isMinutesValid(time);
-        }
-
-        const timeToHours = (time) => {
-            let timeArr = time.split(":");
-            return parseInt(timeArr[0]) + (parseInt(timeArr[1]) / 60);
-        };
+        
 
         console.log("TIME START = " + evt_time_start);
         console.log("TIME END = " + evt_time_end);

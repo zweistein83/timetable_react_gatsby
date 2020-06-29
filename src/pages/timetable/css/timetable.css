@@ -30,7 +30,7 @@
     border-style: solid;
     border-color: black;
     border-width: 0 0.05rem 0.05rem 0.05rem;
-    border-radius: 0rem 0rem 0.5rem 0.5rem;
+    /*border-radius: 0rem 0rem 0.5rem 0.5rem;*/
     
 
 }
@@ -141,8 +141,9 @@ Event colors:
 }
 
 body{
-    background-image:  linear-gradient(30deg, green,blue);
-    background-repeat: no-repeat;
+    /*background-image:  linear-gradient(30deg, green,blue);
+    background-repeat: no-repeat;*/
+    background-color: black;
     min-height: 100vh;
 }
 
