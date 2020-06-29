@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Row } from "reactstrap";
-import  EventsComponent  from "./eventsComponent";
+import EventsComponent from "./eventsComponent";
 
 
 
@@ -27,7 +27,11 @@ class TimetableComponent extends Component {
 
 
 
-
+        /**
+         * Create a background row
+         * @param {*} even - true if the current row is even
+         * @param {*} row_i - row index
+         */
         const BackgroundRow = ({ even, row_i }) => {
             //console.log("BackgroundRow: " + even + " " + row_i);
             const evenStr = even ? "bg-even" : "bg-odd";
@@ -37,7 +41,10 @@ class TimetableComponent extends Component {
                 <Row className={evenStr + " hour-row pl-1"} style={{ height: hour_row_height_rem }}>{hour + ":00"} </Row>
             );
         }
-
+        /**
+         * Create multiple background rows
+         * @param {number} num - Number of rows
+         */
         const BackgroundRows = ({ num }) => {
             //console.log("BackgroundRows: " + num);
             var rows = [];
@@ -52,15 +59,18 @@ class TimetableComponent extends Component {
             );
 
         }
-        /*
-            TODO:
 
-            - move num variable to timetable state.
-        */
+        /**
+         * Generate a background column
+         * @todo move num variable to timetable state.
+         * @param {*} dayName -
+         * @param {*} day_i -
+         * @return {Component} - background column
+         */
         const BackgroundCol = ({ dayName, day_i }) => {
-            console.groupCollapsed("timetableComponent.BackgroundCol "+dayName);
-            console.log({dayName, day_i});
-            console.log({DAY_NAMES, STARTHOUR, ENDHOUR, hour_row_height});
+            console.groupCollapsed("timetableComponent.BackgroundCol " + dayName);
+            console.log({ dayName, day_i });
+            console.log({ DAY_NAMES, STARTHOUR, ENDHOUR, hour_row_height });
             console.log(EVENTS);
             console.groupEnd();
 
@@ -78,6 +88,11 @@ class TimetableComponent extends Component {
             );
         }
 
+
+        /** Generate background column
+         * @todo check if num can be removed.
+         * @param {number} num - number of hours
+         */
         const BackgroundCols = (num) => DAY_NAMES.map((dayName, i) => {
             //console.log("BackgroundCols " + dayName + " " + i);
             return (

@@ -3,9 +3,9 @@ import { Col, Card, CardHeader, CardBody } from "reactstrap";
 import { timeToHours } from "../../helper_functions/time_conversion";
 
 class EventsComponent extends Component {
-    /*
-        Creates a container with a column (1 day) of events.
-    */
+    /**
+     * Creates a container with a column (1 day) of events.
+     */    
     constructor(props) {
         super(props);
 
@@ -24,7 +24,14 @@ class EventsComponent extends Component {
 
 
 
-
+        /**
+         * 
+         * @param {*} event_style_custom
+         * @param {*} event_color
+         * @param {*}  time_start
+         * @param {*}  time_end
+         * @param {*}  event_name
+         */
         function EventBody({ event_style_custom, event_color, time_start, time_end, event_name }) {
 
             return (
@@ -59,6 +66,11 @@ class EventsComponent extends Component {
             
         
         */
+
+        /**
+         * 
+         * @param {*} event_details 
+         */
         const EventDetails = ({ event_details }) => {
             const time_start = event_details.time_start;
             const time_end = event_details.time_end;
@@ -70,11 +82,20 @@ class EventsComponent extends Component {
             const start_hour = timeToHours(time_start);
             const end_hour = timeToHours(time_end);
 
-
+            /**
+             * Calculates the top position of an event
+             * @param {number} time - time as hours
+             * @return {number} - top position
+             */
             const start_hour_to_top_pos = (time) => {
                 return ((time - STARTHOUR) * hour_row_height) + "rem";
             };
 
+            /**
+             * Calculates the height of a event
+             * @param {number} time - time as hours
+             * @return {number} - height of event
+             */
             const end_hour_to_height = (time) => {
                 return ((end_hour - start_hour) * hour_row_height) + "rem";
             };

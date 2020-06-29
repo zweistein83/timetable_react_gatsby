@@ -49,6 +49,11 @@ export default class FormTimetableAddEdit extends Component {
         Object.assign(this.formData, data_obj);
     }
     */
+
+    /**
+     * Called when the edit/new event form changes
+     * @param {*} event 
+     */
     handleChange = (event) => {
         const target = event.target;
         const name = target.name;
@@ -76,6 +81,11 @@ export default class FormTimetableAddEdit extends Component {
         );
     }
 
+
+    /**
+     * Called when the edit/add event form is submitted
+     * @param {*} event 
+     */
     handleSubmit = (event) => {
         event.preventDefault();
         console.group("FORM SUBMIT");
@@ -99,11 +109,10 @@ export default class FormTimetableAddEdit extends Component {
 
 
 
-    /*
-        validate()
 
-        validate form fields
-    */
+    /**
+     * Validates form fields for add/edit events.
+     */
     validate = () => {
         const evt_name = this.state.evt_name;
         const evt_info = this.state.evt_info;

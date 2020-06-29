@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { Container, Row, Nav, NavItem, Button, ButtonGroup, Modal, ModalBody, ModalHeader, } from "reactstrap";
 import TimetableComponent from "../../components/timetable/timetableComponent";
 import FormTimetableAddEdit from "../../components/timetable/formTimetableAddEdit";
-import {get_unique_identifier} from "../../helper_functions/unique_identifier";
+import { get_unique_identifier } from "../../helper_functions/unique_identifier";
 
 import "./css/timetable.css";
 
@@ -49,7 +49,7 @@ class Timetable extends Component {
         //this.initState = this.initState.bind(this);
 
 
-        
+
 
         this.json_format_version = "timetable_0.21";
 
@@ -84,18 +84,18 @@ class Timetable extends Component {
      * Sets state. Can be called from outside component
      * @param {*} new_state 
      */
-    externalSetState(new_state){
+    externalSetState(new_state) {
         this.setState(new_state);
     }
 
     /**
      * Gets state. Can be called from outside component
      */
-    externalGetState(){
+    externalGetState() {
         return this.state;
     }
 
-   
+
 
     /**
      * Checks webstorage if all keys are legal
@@ -122,7 +122,7 @@ class Timetable extends Component {
         return true;
     }
 
-   
+
     /**
      * Returns contents of local webstorage for the current json_format_version.
      * Returns null, if there is no data for current json_format_version in webstorage.
@@ -148,13 +148,13 @@ class Timetable extends Component {
         return null;
     }
 
-   
-   /**
-    * Saves state to local webstorage
-    */
+
+    /**
+     * Saves state to local webstorage
+     */
     setWebStorage() {
         const WEB_STORAGE = window.localStorage;
-        let to_webstorage = {events:this.state.events, settings:this.state.settings};
+        let to_webstorage = { events: this.state.events, settings: this.state.settings };
         try {
             WEB_STORAGE.setItem(this.json_format_version, JSON.stringify(to_webstorage));
         } catch (error) {
@@ -174,7 +174,7 @@ class Timetable extends Component {
         Fix to let gatsby build the site. Causes "ReferenceError window is not defined"
         https://www.gatsbyjs.org/docs/debugging-html-builds/
         */
-        const STORAGE_CONTENTS = typeof window !=="undefined" ? this.getWebStorage() : null;
+        const STORAGE_CONTENTS = typeof window !== "undefined" ? this.getWebStorage() : null;
         let tmp_storage = this.emptyState();
         if (STORAGE_CONTENTS === null) {
             return tmp_storage;
@@ -185,9 +185,9 @@ class Timetable extends Component {
             return tmp_storage;
         }
     }
-    
 
-    
+
+
 
     /**
      * Creates an event and adds it to the state.
@@ -231,10 +231,10 @@ class Timetable extends Component {
     }
 
 
-    
-   /**
-    * Returns an empty default state. With default settings and no events.
-    */
+
+    /**
+     * Returns an empty default state. With default settings and no events.
+     */
     emptyState() {
         const initJSON = `{
             "is_modal_open": false,
@@ -260,10 +260,10 @@ class Timetable extends Component {
     }
 
 
-   
-   /**
-    *  Clears all events inside state.
-    */
+
+    /**
+     *  Clears all events inside state.
+     */
     clearEvents() {
 
         const EMPTY_EVENTS = `{
@@ -279,7 +279,7 @@ class Timetable extends Component {
         this.setState({ events: JSON.parse(EMPTY_EVENTS) });
     }
 
-    
+
 
     /**
      * Replaces all events in state with example data.
@@ -316,13 +316,13 @@ class Timetable extends Component {
     /**
      * Toggles the modal containing the form for adding new events.
      */
-    toggleModal(){
+    toggleModal() {
         this.setState({
-            is_modal_open : !this.state.is_modal_open
+            is_modal_open: !this.state.is_modal_open
         });
     }
 
-    
+
 
 
     resetState() {
@@ -349,22 +349,22 @@ class Timetable extends Component {
         //const handleSubmit = this.FVH.handleSubmit;
         //const handleBlur = this.FVH.handleBlur;
         //const handleChange = this.FVH.handleChange;
-        
-        
+
+
         /**
          * Modal for editing or adding events
          * @param {*} editOradd 
          */
-        const EventModal = ({editOradd}) => {
+        const EventModal = ({ editOradd }) => {
             return (
                 <React.Fragment>
-                    <Modal  isOpen={this.state.is_modal_open} toggle={this.toggleModal}>
+                    <Modal isOpen={this.state.is_modal_open} toggle={this.toggleModal}>
                         <ModalHeader toggle={this.toggleModal}>{editOradd} event</ModalHeader>
                         <ModalBody>
-                            <FormTimetableAddEdit 
-                            day_names={this.state.settings.day_names}
-                            event_colors = {EVENT_COLORS}
-                            createTimetableEvent={this.createTimetableEvent} 
+                            <FormTimetableAddEdit
+                                day_names={this.state.settings.day_names}
+                                event_colors={EVENT_COLORS}
+                                createTimetableEvent={this.createTimetableEvent}
                             />
                         </ModalBody>
                     </Modal>
@@ -378,7 +378,7 @@ class Timetable extends Component {
 
             <React.Fragment>
 
-                {<EventModal editOradd = {"Add"} />}
+                {<EventModal editOradd={"Add"} />}
 
                 <Container className="bg-odd p-5 container-timetable">
 
@@ -403,7 +403,7 @@ class Timetable extends Component {
 
                     <Row>
 
-                        <TimetableComponent settings={this.state.settings} events={this.state.events}/>
+                        <TimetableComponent settings={this.state.settings} events={this.state.events} />
                     </Row>
                 </Container>
             </React.Fragment>
