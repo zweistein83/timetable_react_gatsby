@@ -114,10 +114,12 @@ class EventsComponent extends Component {
             );
         }
 
-        /*
-            Creates a div with absolute positioning inside a relative positioned div. 
-            This is placed inside each "day column". 
-        */
+        
+
+        /**
+         * Creates a div with absolute positioning inside a relative positioned div. 
+         * This is placed inside each "day column". 
+         */
         const EventsContainer = () => {
 
             /*

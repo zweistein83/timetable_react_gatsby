@@ -216,6 +216,7 @@ class Timetable extends Component {
     /**
      * Deletes an event
      * @param {string} uid - unique event-id
+     * @todo make it accessible via ui.
      */
     deleteEvent(uid) {
         const EVENTS = { ...this.state.events };
