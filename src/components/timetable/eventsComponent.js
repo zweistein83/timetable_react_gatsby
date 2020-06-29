@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Col, Card, CardHeader, CardBody } from "reactstrap";
-import {timeToHours} from "../../helper_functions/time_convertion";
+import { timeToHours } from "../../helper_functions/time_convertion";
 
 class EventsComponent extends Component {
     /*
@@ -9,11 +9,9 @@ class EventsComponent extends Component {
     constructor(props) {
         super(props);
 
-        
+
     }
 
-
-     
 
     render() {
         //console.log("TIME: " + this.timeToIntArray("20:35"));
@@ -71,12 +69,17 @@ class EventsComponent extends Component {
             //console.log(this.timeToHours);
             const start_hour = timeToHours(time_start);
             const end_hour = timeToHours(time_end);
+
+
             const start_hour_to_top_pos = (time) => {
                 return ((time - STARTHOUR) * hour_row_height) + "rem";
             };
+
             const end_hour_to_height = (time) => {
                 return ((end_hour - start_hour) * hour_row_height) + "rem";
             };
+
+
             const event_style_custom = { top: start_hour_to_top_pos(start_hour), height: end_hour_to_height(end_hour) };
             return (
                 <React.Fragment>
@@ -123,10 +126,10 @@ class EventsComponent extends Component {
             <React.Fragment>
                 <EventsContainer hour_row_height={this.props.hour_row_height} />
             </React.Fragment>
-            
+
         );
 
-}
+    }
 
 
 }

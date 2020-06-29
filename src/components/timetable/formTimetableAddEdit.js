@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Row, Button, Form, FormGroup, Input, Label, ButtonToolbar, FormFeedback } from "reactstrap";
-import {isTimeValid} from "../../helper_functions/time_validation";
-import {timeToHours} from "../../helper_functions/time_convertion";
+import { isTimeValid } from "../../helper_functions/time_validation";
+import { timeToHours } from "../../helper_functions/time_convertion";
 export default class FormTimetableAddEdit extends Component {
 
 
@@ -16,11 +16,11 @@ export default class FormTimetableAddEdit extends Component {
 
 
     */
-    
+
     constructor(props) {
-       
+
         super(props);
-        
+
         this.state = {
             evt_name: "",
             evt_info: "",
@@ -99,17 +99,18 @@ export default class FormTimetableAddEdit extends Component {
 
 
 
+    /*
+        validate()
 
+        validate form fields
+    */
     validate = () => {
         const evt_name = this.state.evt_name;
         const evt_info = this.state.evt_info;
         const evt_time_start = this.state.evt_time_start;
         const evt_time_end = this.state.evt_time_end;
 
-        /*
-            Input: time in format ["HH:MM"]
-            Output: time in hours as decimal.
-        */
+
 
         console.groupCollapsed("form validate");
         console.log(evt_name);
@@ -153,7 +154,7 @@ export default class FormTimetableAddEdit extends Component {
         }
         */
 
-        
+
 
         console.log("TIME START = " + evt_time_start);
         console.log("TIME END = " + evt_time_end);
@@ -175,12 +176,6 @@ export default class FormTimetableAddEdit extends Component {
                 errors.evt_time_start = "Start time must be before end time";
             }
         }
-
-
-
-
-
-
 
         console.log("ERRORS:");
         console.table({ errors });
